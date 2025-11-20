@@ -6,23 +6,33 @@ This project is a React application with an ASP.NET/MySQL/Redis backend for Gens
 
 ### Prerequisites
 
-*   [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-*   [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+* [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 ### First-Time Setup and Running the Application
 
 1. Clone and `cd` into the repository.
 
 2. Start the MySQL and Redis containers:
+
     ```sh
     docker-compose up -d
     ```
+
     Note that you may need to stop MySQL server or change the active port if running locally.
 
-3. Open the backend solution:
-   
+3. Initialize database schema (first time only):
+
+   ```sh
+   docker exec -i ayaka-mysql mysql -uayaka_user -p4C57y3p9oi68sHypttu ayaka_db < schema-dump.sql
+   ```
+
+   (usernames and passwords can be configured in the `docker-compose.yml` file)
+
+4. Open the backend solution:
+
    Open the `backend/Ayaka.sln` file in JetBrains Rider or Visual Studio.
 
-4. Run the backend API:
-   
+5. Run the backend API:
+
    Press the Run button in your IDE. The API will start and be accessible at `http://localhost:5077`.

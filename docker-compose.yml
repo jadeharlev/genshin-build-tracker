@@ -9,7 +9,7 @@ services:
       MYSQL_ROOT_PASSWORD: Q3BRq3RArU6GyXjxh8e
       MYSQL_DATABASE: ayaka_db
       MYSQL_USER: ayaka_user
-      MYSQL_Password: 4C57y3p9oi68sHypttu
+      MYSQL_PASSWORD: 4C57y3p9oi68sHypttu
     ports:
       - "3306:3306"
     volumes:

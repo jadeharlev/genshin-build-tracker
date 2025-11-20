@@ -1,0 +1,65 @@
+using System.Data;
+using Ayaka.Api.Data.Models;
+using Dapper;
+using MySql.Data.MySqlClient;
+
+namespace Ayaka.Api.Repositories;
+public class UserRepository : IUserRepository {
+    private readonly string connectionString;
+    
+    public UserRepository(IConfiguration configuration) {
+        this.connectionString = configuration.GetConnectionString("DefaultConnection");
+    }
+
+    private IDbConnection CreateConnection() {
+        return new MySqlConnection(connectionString);
+    }
+    
+    public async Task<User?> GetByIDAsync(int userID) {
+        const string sqlCommand = """
+                                  SELECT *
+                                  FROM user
+                                  WHERE UserID = @userID
+                                  """;
+        using var connection = CreateConnection();
+        var user = await connection.QuerySingleOrDefaultAsync<User>(sqlCommand, new
+        {
+            userID
+        });
+        return user;
+    }
+
+    public async Task<int> CreateAsync(User user) {
+        const string sqlCommand = """
+                                  INSERT INTO user (AdventureRank, AccountName)
+                                  VALUES(@AdventureRank, @AccountName);
+
+                                  SELECT LAST_INSERT_ID();
+                                  """;
+        using var connection = CreateConnection();
+        var id = await connection.QuerySingleAsync<int>(sqlCommand, user);
+        return id;
+    }
+
+    public async Task<bool> UpdateAsync(User user) {
+        const string sqlCommand = """
+                                  UPDATE user
+                                  SET AdventureRank = @AdventureRank, 
+                                      AccountName = @AccountName
+                                  WHERE UserID = @UserID;
+                                  """;
+        using var connection = CreateConnection();
+        var affectedRows = await connection.ExecuteAsync(sqlCommand, user);
+        return affectedRows > 0;
+    }
+
+    public async Task<bool> DeleteAsync(int userID) {
+        const string sqlCommand = """
+                                  DELETE FROM user
+                                  WHERE UserID = @userID;
+                                  """;
+        using var connection = CreateConnection();
+        var affectedRows = await connection.ExecuteAsync(sqlCommand, new {UserID = userID});
+        return affectedRows > 0;
+    }
+}
