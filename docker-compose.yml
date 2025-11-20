@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:9.4.0
+    container_name: ayaka-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Q3BRq3RArU6GyXjxh8e
+      MYSQL_DATABASE: ayaka_db
+      MYSQL_USER: ayaka_user
+      MYSQL_Password: 4C57y3p9oi68sHypttu
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  cache:
+    image: redis:8-alpine
+    container_name: ayaka-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mysql_data:
+  redis_data:
