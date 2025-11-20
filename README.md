@@ -1,2 +1,28 @@
-# genshin-build-tracker
-Genshin Impact build tracker for a database management class.
+# Project Ayaka: Genshin Build Tracker
+
+This project is a React application with an ASP.NET/MySQL/Redis backend for Genshin Impact players.
+
+## Getting Started
+
+### Prerequisites
+
+*   [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+*   [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+### First-Time Setup and Running the Application
+
+1. Clone and `cd` into the repository.
+
+2. Start the MySQL and Redis containers:
+    ```sh
+    docker-compose up -d
+    ```
+    Note that you may need to stop MySQL server or change the active port if running locally.
+
+3. Open the backend solution:
+   
+   Open the `backend/Ayaka.sln` file in JetBrains Rider or Visual Studio.
+
+4. Run the backend API:
+   
+   Press the Run button in your IDE. The API will start and be accessible at `http://localhost:5077`.
