@@ -1,6 +1,18 @@
-version: '3.8'
-
 services:
+  api:
+    container_name: ayaka-api
+    build:
+      context: ./Backend/src/Ayaka.Api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Port=3306;Database=ayaka_db;Uid=ayaka_user;Pwd=4C57y3p9oi68sHypttu
+      - ASPNETCORE_URLS=http://+:8080
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - db
+      - cache
   db:
     image: mysql:9.4.0
     container_name: ayaka-mysql

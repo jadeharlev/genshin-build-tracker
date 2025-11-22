@@ -16,7 +16,7 @@ This project is a React application with an ASP.NET/MySQL/Redis backend for Gens
 2. Start the MySQL and Redis containers:
 
     ```sh
-    docker-compose up -d
+    docker-compose up --build -d
     ```
 
     Note that you may need to stop MySQL server or change the active port if running locally.
@@ -29,10 +29,11 @@ This project is a React application with an ASP.NET/MySQL/Redis backend for Gens
 
    (usernames and passwords can be configured in the `docker-compose.yml` file)
 
-4. Open the backend solution:
+4. Your app should now be running at [localhost:8080](http://localhost:8080/swagger/index.html).
 
-   Open the `backend/Ayaka.sln` file in JetBrains Rider or Visual Studio.
 
-5. Run the backend API:
+### Starting Development 
 
-   Press the Run button in your IDE. The API will start and be accessible at `http://localhost:5077`.
+To start development, open the backend solution:
+
+Open the `Backend/Ayaka.sln` file in JetBrains Rider or Visual Studio.
