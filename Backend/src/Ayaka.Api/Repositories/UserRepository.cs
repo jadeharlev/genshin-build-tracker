@@ -59,7 +59,7 @@ public class UserRepository : IUserRepository {
                                   WHERE UserID = @userID;
                                   """;
         using var connection = CreateConnection();
-        var affectedRows = await connection.ExecuteAsync(sqlCommand, new {UserID = userID});
+        var affectedRows = await connection.ExecuteAsync(sqlCommand, new { userID });
         return affectedRows > 0;
     }
 }

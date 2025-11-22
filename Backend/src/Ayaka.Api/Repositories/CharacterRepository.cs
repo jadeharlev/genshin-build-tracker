@@ -29,7 +29,7 @@ public class CharacterRepository : ICharacterRepository {
         const string sqlCommand = """
                                   SELECT * 
                                   FROM characters 
-                                  WHERE CharacterID = @CharacterID
+                                  WHERE CharacterID = @characterID
                                   """;
         using var connection = CreateConnection();
         var character = await connection.QuerySingleOrDefaultAsync<Character>(sqlCommand, new
@@ -77,7 +77,7 @@ public class CharacterRepository : ICharacterRepository {
                                   WHERE CharacterID = @characterID
                                   """;
         using var connection = CreateConnection();
-        var affectedRows = await connection.ExecuteAsync(sqlCommand, new { CharacterID = characterID });
+        var affectedRows = await connection.ExecuteAsync(sqlCommand, new { characterID });
         return affectedRows > 0;
     }
 }
