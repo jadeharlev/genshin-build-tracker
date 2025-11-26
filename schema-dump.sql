@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 9.4.0, for macos15 (arm64)
 --
--- Host: localhost    Database: ayaka
+-- Host: localhost    Database: ayaka_db
 -- ------------------------------------------------------
 -- Server version	9.4.0
 
@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `artifact`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `artifact` (
-  `ArtifactID` int NOT NULL,
+  `ArtifactID` int NOT NULL AUTO_INCREMENT,
   `ArtifactType` enum('Flower','Feather','Goblet','Sands','Circlet') NOT NULL,
   `Rarity` enum('1','2','3','4','5') NOT NULL,
   `SetID` int NOT NULL,
@@ -64,7 +64,7 @@ DROP TABLE IF EXISTS `artifactstat`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `artifactstat` (
-  `ArtifactStatID` int NOT NULL,
+  `ArtifactStatID` int NOT NULL AUTO_INCREMENT,
   `StatType` enum('ATK%','ATK','HP%','HP','DEF%','DEF','EM','ER%','Pyro%','Dendro%','Anemo%','Electro%','Cryo%','Hydro%','Physical%','HealingBonus','CritRate','CritDMG') NOT NULL,
   `Value` decimal(5,2) NOT NULL,
   PRIMARY KEY (`ArtifactStatID`)
@@ -88,7 +88,7 @@ DROP TABLE IF EXISTS `build`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `build` (
-  `BuildID` int NOT NULL,
+  `BuildID` int NOT NULL AUTO_INCREMENT,
   `BuildName` varchar(255) NOT NULL,
   `CharacterID` int NOT NULL,
   `FlowerID` int NOT NULL,
@@ -132,7 +132,7 @@ DROP TABLE IF EXISTS `characters`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `characters` (
-  `CharacterID` int NOT NULL,
+  `CharacterID` int NOT NULL AUTO_INCREMENT,
   `BaseCharacterID` int NOT NULL,
   `Rarity` enum('4','5') NOT NULL,
   `Name` varchar(30) NOT NULL,
@@ -171,7 +171,7 @@ DROP TABLE IF EXISTS `team`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `team` (
-  `TeamID` int NOT NULL,
+  `TeamID` int NOT NULL AUTO_INCREMENT,
   `TeamName` varchar(255) NOT NULL,
   `FirstCharacterID` int DEFAULT NULL,
   `SecondCharacterID` int DEFAULT NULL,
@@ -210,8 +210,11 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `UserID` int NOT NULL AUTO_INCREMENT,
-  `AdventureRank` int NOT NULL,
-  `AccountName` varchar(255) NOT NULL,
+  `GoogleID` varchar(255) NOT NULL,
+  `Email` varchar(255) NOT NULL,
+  `DisplayName` varchar(255) NOT NULL,
+  `AdventureRank` int DEFAULT NULL,
+  `AccountName` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`UserID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -233,7 +236,7 @@ DROP TABLE IF EXISTS `weapon`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `weapon` (
-  `WeaponID` int NOT NULL,
+  `WeaponID` int NOT NULL AUTO_INCREMENT,
   `BaseWeaponID` int NOT NULL,
   `Rarity` enum('1','2','3','4','5') NOT NULL,
   `WeaponType` enum('sword','polearm','claymore','bow','catalyst') NOT NULL,
@@ -265,4 +268,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-20 12:48:05
+-- Dump completed on 2025-11-22 13:50:34

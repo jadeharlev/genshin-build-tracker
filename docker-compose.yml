@@ -6,10 +6,23 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+      - "8081:8081"
     environment:
       - ConnectionStrings__DefaultConnection=Server=db;Port=3306;Database=ayaka_db;Uid=ayaka_user;Pwd=4C57y3p9oi68sHypttu
-      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__Redis=cache:6379
+      - ASPNETCORE_URLS=http://+:8080;https://+:8081
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - Google__ClientId=${GOOGLE_CLIENT_ID}
+      - Google__ClientSecret=${GOOGLE_CLIENT_SECRET}
+      - Jwt__Secret=${JWT_SECRET}
+      - Jwt__Issuer=https://localhost:8081
+      - Jwt__Audience=https://localhost:8080
+      - Jwt__ExpirationMinutes=60
+      - Jwt__RefreshExpirationDays=7
+    volumes:
+      - ~/.aspnet/https:/https:ro
     depends_on:
       - db
       - cache

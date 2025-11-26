@@ -29,16 +29,35 @@ public class UserRepository : IUserRepository {
         return user;
     }
 
+    public async Task<User?> GetByGoogleIDAsync(string googleID) {
+        const string sqlCommand = """
+                                  SELECT *
+                                  FROM user
+                                  WHERE GoogleID = @googleID
+                                  """;
+        using var connection = CreateConnection();
+        var user = await connection.QuerySingleOrDefaultAsync<User>(sqlCommand, new { googleID });
+        return user;
+    }
+
     public async Task<int> CreateAsync(User user) {
         const string sqlCommand = """
-                                  INSERT INTO user (AdventureRank, AccountName)
-                                  VALUES(@AdventureRank, @AccountName);
+                                  INSERT INTO user (GoogleID, Email, DisplayName, AdventureRank, AccountName)
+                                  VALUES(@GoogleID, @Email, @DisplayName, @AdventureRank, @AccountName);
 
                                   SELECT LAST_INSERT_ID();
                                   """;
         using var connection = CreateConnection();
-        var id = await connection.QuerySingleAsync<int>(sqlCommand, user);
-        return id;
+    
+        try {
+            var id = await connection.QuerySingleAsync<int>(sqlCommand, user);
+            return id;
+        }
+        catch (Exception ex) {
+            // Log the actual SQL error
+            Console.WriteLine($"Database error: {ex.Message}");
+            throw;
+        }
     }
 
     public async Task<bool> UpdateAsync(User user) {
