@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { AuthResponse, GoogleSignInRequest, User } from "./api-interfaces";
+import type { AuthResponse, GoogleSignInRequest, User } from "./apiInterfaces";
 
 const api = axios.create({
     baseURL: '/api',

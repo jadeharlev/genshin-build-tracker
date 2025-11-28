@@ -13,6 +13,9 @@ RUN dotnet restore
 # Copy rest of source code into the container
 COPY . .
 
+# Make wwwroot folders
+RUN mkdir -p wwwroot/images/characters wwwroot/images/weapons wwwroot/images/artifacts
+
 # Compile & publish in release configuration -> /app/publish in the container
 RUN dotnet publish -c Release -o /app/publish
 

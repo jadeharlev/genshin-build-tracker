@@ -87,26 +87,11 @@ function LoginPage() {
 
 
     return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '60vh'
-        }}>
-            <h1 style={{textAlign: 'center', marginBottom: '3rem', fontSize: '2.5rem'}}>Genshin Build Tracker</h1>
+        <div className="loginPageContent">
+            <h1 className="pageHeader">Welcome!</h1>
             {!isNewUser ? (
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    gap: '1.5rem',
-                    padding: '2rem',
-                    backgroundColor: '#1a1a1a',
-                    borderRadius: '8px',
-                    border: '1px solid #444'
-                    }}>
-                    <p style={{ fontSize: '1.1rem', color: '#ccc'}}>Sign in with Google to get started!</p>
+                <div className="loginCard">
+                    <p>Sign in with Google to get started!</p>
                     <GoogleLogin onSuccess={handleGoogleSuccess} onError={handleGoogleError} useOneTap />
                 </div>
             ) : (
@@ -119,6 +104,7 @@ function LoginPage() {
                     border: '1px solid #444'
                 }}>
                 <form onSubmit={handleNewUserSubmission}>
+                    // TODO restyle these
                     <h2 style={{marginBottom: '2rem', textAlign: 'center', color: '#646cff'}}>Complete Your Profile</h2>
                     <div style={{marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
                         <label style={{fontWeight: '500', fontSize: '1rem'}}>

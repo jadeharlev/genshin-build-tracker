@@ -28,26 +28,20 @@ function Index() {
     }
 
     return (
-        <div>
-            <h1>Welcome back, {user?.accountName}.</h1>
-            <div style={{
-                marginTop: '3rem',
-                backgroundColor: '#1a1a1a',
-                padding: '2rem',
-                borderRadius: '8px',
-                border: '1px solid #444'
-                }}>
-                <h2 style={{color: "#646cff", marginBottom: '1.5rem'}}>Your Profile</h2>
-                <div style={{display: 'grid', gap: '1rem', fontSize: '1.1rem'}}>
-                    <div style={{ display: 'flex', gap: '0.5rem'}}>
+        <div className="homePageContent">
+            <h1 className="pageHeader">Welcome back, {user?.accountName}!</h1>
+            <div className="homePageCard">
+                <h2 className="homePageCardHeader">Your Profile</h2>
+                <div className="homePageCardBody">
+                    <div className="homePageCardRow">
                         <strong>Email:</strong>
                         <span>{user?.email}</span>
                     </div>
-                    <div style={{ display: 'flex', gap: '0.5rem'}}>
+                    <div className="homePageCardRow">
                         <strong>Adventure Rank:</strong>
                         <span>{user?.adventureRank}</span>
                     </div>
-                    <div style={{ display: 'flex', gap: '0.5rem'}}>
+                    <div className="homePageCardRow">
                         <strong>Account Name:</strong>
                         <span>{user?.accountName}</span>
                     </div>

@@ -23,6 +23,8 @@ services:
       - Jwt__RefreshExpirationDays=7
     volumes:
       - ~/.aspnet/https:/https:ro
+      - ./images:/app/wwwroot/images
+      - ./game-data-cache:/app/GameData/Cache
     depends_on:
       - db
       - cache

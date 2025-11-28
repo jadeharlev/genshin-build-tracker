@@ -5,7 +5,7 @@ namespace Ayaka.Api.Data.Models;
 
 /**
     CharacterID         INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    BaseCharacterID     INT             NOT NULL,
+    BaseCharacterKey    VARCHAR(50)     NOT NULL,
     Rarity              ENUM('4', '5')  NOT NULL,
     Name                VARCHAR(30)     NOT NULL,
     Level               INT             NOT NULL,
