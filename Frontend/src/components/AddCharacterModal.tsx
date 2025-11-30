@@ -1,0 +1,148 @@
+import { useState, type FormEvent } from "react";
+import type { CreateCharacterRequest } from "../lib/api/charactersInterfaces";
+import type { BaseCharacter } from "../lib/api/gameDataAPIInterfaces";
+
+interface AddCharacterModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onSubmit: (data: CreateCharacterRequest) => void;
+    baseCharacters: BaseCharacter[];
+    isSubmitting?: boolean;
+}
+
+export function AddCharacterModal({
+    isOpen,
+    onClose,
+    onSubmit,
+    baseCharacters,
+    isSubmitting = false
+}: AddCharacterModalProps) {
+    const [selectedCharacterKey, setSelectedCharacterKey] = useState<string>('');
+    const [level, setLevel] = useState<number>(1);
+    const [ascension, setAscension] = useState<0 | 1 | 2 | 3 | 4 | 5 | 6>(0);
+    const [constellation, setConstellation] = useState<0 | 1 | 2 | 3 | 4 | 5 | 6>(0);
+    const [talentLevel1, setTalentLevel1] = useState<number>(1);
+    const [talentLevel2, setTalentLevel2] = useState<number>(1);
+    const [talentLevel3, setTalentLevel3] = useState<number>(1);
+
+    const selectedCharacter = baseCharacters.find((character: BaseCharacter) => character.key === selectedCharacterKey);
+
+    const resetForm = () => {
+        setSelectedCharacterKey('');
+        setLevel(1);
+        setAscension(0);
+        setConstellation(0);
+        setTalentLevel1(1);
+        setTalentLevel2(1);
+        setTalentLevel3(1);
+    };
+
+    const handleClose = () => {
+        resetForm();
+        onClose();
+    }
+
+    const handleSubmit = (formEvent: FormEvent) => {
+        formEvent.preventDefault();
+        if(!selectedCharacterKey) return;
+
+        onSubmit({
+            baseCharacterKey: selectedCharacterKey,
+            name: selectedCharacter!.name,
+            rarity: selectedCharacter!.rarity.toString() as "4" | "5",
+            level,
+            ascension,
+            constellation,
+            talentLevel1,
+            talentLevel2,
+            talentLevel3
+        });
+    }
+
+    if(!isOpen) return null;
+
+    const alphabeticallySortedCharacters = [...baseCharacters].sort((a, b) => a.name.localeCompare(b.name));
+
+    return (
+        <div className="modalOverlay" onClick={handleClose}>
+            {/* TODO explain stopPropagation */}
+            <div className="modalContent" onClick={(e) => e.stopPropagation()}>
+                <div className="modalHeader">
+                    <h2>Add Character</h2>
+                    <button className="modalCloseButton" onClick={handleClose}>x</button>
+                </div>
+
+                <form onSubmit={handleSubmit} className="modalForm">
+
+                    {/* Character Selection */}
+                    <div className="formGroup">
+                        <label htmlFor="character">Character</label>
+                        <select name="character" value={selectedCharacterKey} id="character" onChange={(e) => setSelectedCharacterKey(e.target.value)} required>
+                            <option value="">Select a character...</option>
+                            {alphabeticallySortedCharacters.map((character: BaseCharacter) => (
+                                <option value={character.key} key={character.key}>
+                                    {character.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Level and Ascension */}
+                    <div className="formRow">
+                        <div className="formGroup">
+                            <label htmlFor="level">Level</label>
+                            <input type="number" id="level" min={1} max={100} value={level} onChange={(e) => setLevel(parseInt(e.target.value) || 1)} required/>
+                        </div>
+
+                        <div className="formGroup">
+                            <label htmlFor="ascension">Ascension</label>
+                            <select name="ascension" id="ascension" value={ascension} onChange={(e) => setAscension(parseInt(e.target.value) as 0 | 1 | 2 | 3 | 4 | 5 | 6)} required>
+                                {[0,1,2,3,4,5,6].map((ascension) => (
+                                    <option key={ascension} value={ascension}>{ascension}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Constellation */}
+                    <div className="formGroup">
+                        <label htmlFor="constellation">Constellation</label>
+                        <select id="constellation" value={constellation} onChange={(e) => setConstellation(parseInt(e.target.value) as 0 | 1 | 2 | 3 | 4 | 5 | 6)} required>
+                            {[0,1,2,3,4,5,6].map((constellation) => (
+                                    <option key={constellation} value={constellation}>C{constellation}</option>
+                                ))}
+                        </select>
+                    </div>
+
+                    {/* Talent Levels */}
+                    <div className="formRow">
+                        <div className="formGroup">
+                            <label htmlFor="talent1">Normal Attack</label>
+                            <input type="number" id="talent1" min={1} max={13} value={talentLevel1} onChange={(e) => setTalentLevel1(parseInt(e.target.value) || 1)} required />
+                        </div>
+
+                        <div className="formGroup">
+                            <label htmlFor="talent2">Elemental Skill</label>
+                            <input type="number" id="talent2" min={1} max={13} value={talentLevel2} onChange={(e) => setTalentLevel2(parseInt(e.target.value) || 1)} required />
+                        </div>
+
+                        <div className="formGroup">
+                            <label htmlFor="talent3">Elemental Burst</label>
+                            <input type="number" id="talent3" min={1} max={13} value={talentLevel3} onChange={(e) => setTalentLevel3(parseInt(e.target.value) || 1)} required />
+                        </div>
+                    </div>
+
+                    {/* Buttons */}
+                    <div className="modalActions">
+                        <button type="button" className="cancelButton" onClick={handleClose}>
+                            Cancel
+                        </button>
+                        <button type="submit" className="submitButton" disabled={!selectedCharacterKey || isSubmitting}>
+                            {isSubmitting ? "Adding..." : "Add Character"}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    )
+}

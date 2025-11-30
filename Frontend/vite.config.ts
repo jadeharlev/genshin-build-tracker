@@ -34,6 +34,11 @@ export default defineConfig({
             console.log('Proxy response:', req.url, "=>", proxyRes.statusCode);
           });
         }
+      },
+      '/images': {
+        target: 'https://localhost:8081',
+        changeOrigin: true,
+        secure: false,
       }
     },
   }

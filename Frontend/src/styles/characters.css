@@ -1,0 +1,448 @@
+:root {
+    --pyro: #ff4a4a;
+    --hydro: #6dccff;
+    --cryo: #bcf6ff;
+    --dendro: #19b65b;
+    --anemo:#3ef0cc;
+    --electro: #a131cd;
+    --geo: #f3c612;
+    --fourstar: #8c37ae;
+    --fivestar: #ffe355;
+}
+
+.charactersPage {
+    padding: 2rem;
+    max-width: 1920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.charactersPageHeader {
+    color: var(--neutral-light);
+    margin-bottom: 2rem;
+}
+
+.characterFiltersBar {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: var(--neutral-dark);
+    border-radius: 8px;
+    border: 1px solid var(--primary-accent);
+}
+
+.characterSearchInput {
+    flex: 1;
+    min-width: 250px;
+    color: var(--neutral-light);
+}
+
+.filterGroup {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filterLabel {
+    color: var(--neutral-light);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+.filterPill {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 2px solid var(--primary-accent);
+    background-color: transparent;
+    color: var(--neutral-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.filterPill:hover {
+    background-color: rgba(152,200,232,0.1);
+    border-color: var(--neutral-light);
+}
+
+.filterPill:active {
+    background-color: var(--primary-accent);
+    color: var(--primary-dark);
+    border-color: var(--primary-accent);
+}
+
+.filterPill.weapon.active {
+    background-color: var(--primary-accent);
+    color: var(--primary-dark);
+    border-color: var(--primary-accent);
+}
+
+.filterPill.elementpyro.active {
+    background-color: var(--pyro);
+    border-color: var(--pyro);
+    color: var(--primary-dark);
+}
+
+.filterPill.elementcryo.active {
+    background-color: var(--cryo);
+    border-color: var(--cryo);
+    color: var(--primary-dark);
+}
+
+.filterPill.elementhydro.active {
+    background-color: var(--hydro);
+    border-color: var(--hydro);
+    color: var(--primary-dark);
+}
+
+.filterPill.elementdendro.active {
+    background-color: var(--dendro);
+    border-color: var(--dendro);
+}
+
+.filterPill.elementelectro.active {
+    background-color: var(--electro);
+    border-color: var(--electro);
+}
+
+.filterPill.elementgeo.active {
+    background-color: var(--geo);
+    border-color: var(--geo);
+    color: var(--primary-dark);
+}
+
+.filterPill.elementanemo.active {
+    background-color: var(--anemo);
+    border-color: var(--anemo);
+    color: var(--primary-dark);
+}
+
+.filterPill.rarity4.active {
+    background-color: var(--fourstar);
+    border-color: var(--fourstar);
+}
+
+.filterPill.rarity5.active {
+    background-color: var(--fivestar);
+    border-color: var(--fivestar);
+    color: var(--neutral-dark);
+}
+
+.createCharacterButton {
+    margin-left: auto;
+    background-color: var(--primary-accent);
+    color: var(--primary-dark);
+    border: none;
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+}
+
+.createCharacterButton:hover {
+    background-color: var(--neutral-light);
+    border-color: var(--primary-accent);
+}
+
+.charactersTableContainer {
+    width: 100%;
+    background-color: var(--neutral-dark);
+    border-radius: 11px;
+    border: 1px solid var(--primary-accent);
+    overflow: hidden;
+}
+
+.charactersTable {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--neutral-light);
+}
+
+.charactersTable th {
+    background-color: var(--primary-accent);
+    color: var(--neutral-dark);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--primary-accent);
+    user-select: none;
+}
+
+.charactersTable th.sortable {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.charactersTable th.sortable:hover {
+    background-color: rgba(152, 200, 232, 0.1);
+}
+
+.charactersTable th .sortIndicator {
+    margin-left: 0.5rem;
+    opacity: 0.5;
+}
+
+.charactersTable th .sortIndicator.active {
+    opacity: 1;
+}
+
+
+.charactersTable tbody tr {
+    border-bottom: 1px solid rgba(152, 200, 232, 0.2);
+    transform: background-color 0.2s;
+    cursor: pointer;
+}
+
+.charactersTable tbody tr:hover {
+    background-color: rgba(152, 200, 232, 0.05);
+}
+
+.charactersTable tbody tr:last-child {
+    border-bottom: none;
+}
+
+.charactersTable td {
+    padding: 1rem;
+    font-size: 0.95rem;
+}
+
+.characterIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var (--primary-accent);
+}
+
+.rarityStars {
+    font-size: 0.8rem;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--neutral-light);
+}
+
+.emptyStateIcon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.emptyStateTitle {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.emptyStateMessage {
+    font-size: 1rem;
+    opacity: 0.7;
+    margin-bottom: 2rem;
+}
+
+.loadingSkeleton {
+    background: linear-gradient(90deg, var(--neutral-dark) 25%, rgba(152,200,232,0.1) 50%, var(--neutral-dark) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeletonRow {
+    height: 80px;
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.66);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Modal should always be on top */
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: var(--neutral-dark);
+    border: 1px solid var(--primary-accent);
+    border-radius: 11px;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--primary-accent);
+}
+
+.modalHeader h2 {
+    margin: 0;
+    color: var(--neutral-light);
+    font-size: 1.25rem;
+}
+
+.modalCloseButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.1s;
+}
+
+.modalCloseButton:hover {
+    opacity: 1;
+}
+
+.modalForm {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formGroup label {
+    color: var(--neutral-light);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.formGroup input, .formGroup select {
+    padding: 0.75rem;
+    border-radius: 11px;
+    border: 1px solid var(--primary-accent);
+    color: var(--neutral-light);
+    flex: 1;
+}
+
+.formGroup input:focus, .formGroup select:focus {
+    outline: none;
+    border-color: var(--neutral-light)
+}
+
+.formRow {
+    display: flex;
+    gap: 1rem;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.cancelButton {
+    padding: 0.75rem 1.5rem;
+    border-radius: 11px;
+    border: 1px solid var(--primary-accent);
+    background-color: transparent;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.cancelButton:hover {
+    background-color: rgba(152, 200, 232, 0.1);
+    border-color: var(--primary-light);
+}
+
+.submitButton {
+    padding: 0.75rem 1.5rem;
+    border-radius: 11px;
+    border: none;
+    background-color: var(--primary-accent);
+    color: var(--primary-dark);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.submitButton:hover:not(:disabled) {
+    background-color: var(--neutral-light);
+}
+
+.submitButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+@media (max-width: 768px) {
+    .charactersPage {
+        padding: 1rem;
+    }
+
+    .characterFiltersBar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .characterSearchInput {
+        width: 100%;
+    }
+
+    .filterGroup {
+        justify-content: flex-start;
+    }
+
+    .createCharacterButton {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .charactersTable {
+        font-style: 0.85rem;
+    }
+
+    .charactersTable th, .charactersTable td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .charactersTable .hideMobile {
+        display: none;
+    }
+
+    .formRow {
+        flex-direction: column;
+    }
+
+    .modalContent {
+        width: 95%;
+        margin: 1rem;
+    }
+}

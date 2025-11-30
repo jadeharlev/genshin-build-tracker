@@ -41,8 +41,8 @@ public class CharacterRepository : ICharacterRepository {
 
     public async Task<int> CreateAsync(Character character) {
         const string sqlCommand = """
-                                  INSERT INTO characters (BaseCharacterID, Rarity, Name, Level, Ascension, TalentLevel1, TalentLevel2, TalentLevel3, ConstellationLevel, UserID) 
-                                  VALUES (@BaseCharacterID, @Rarity, @Name, @Level, @Ascension, @TalentLevel1, @TalentLevel2, @TalentLevel3, @ConstellationLevel, @UserID);
+                                  INSERT INTO characters (BaseCharacterKey, Rarity, Name, Level, Ascension, TalentLevel1, TalentLevel2, TalentLevel3, ConstellationLevel, UserID) 
+                                  VALUES (@BaseCharacterKey, @Rarity, @Name, @Level, @Ascension, @TalentLevel1, @TalentLevel2, @TalentLevel3, @ConstellationLevel, @UserID);
                                   
                                   SELECT LAST_INSERT_ID();
                                   """;
@@ -54,7 +54,7 @@ public class CharacterRepository : ICharacterRepository {
     public async Task<bool> UpdateAsync(Character character) {
         const string sqlCommand = """
                                   UPDATE characters
-                                    SET BaseCharacterID = @BaseCharacterID,
+                                    SET BaseCharacterKey = @BaseCharacterKey,
                                         Rarity = @Rarity,
                                         Name = @Name,
                                         Level = @Level,

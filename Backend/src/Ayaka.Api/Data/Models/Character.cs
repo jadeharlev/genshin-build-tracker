@@ -21,9 +21,9 @@ namespace Ayaka.Api.Data.Models;
 public class Character {
     [Key]
     public int CharacterID { get; set; }
-    
-    [Required]
-    public int BaseCharacterId { get; set; }
+
+    [Required] 
+    public string BaseCharacterKey { get; set; } = string.Empty;
 
     [Required] // "4" or "5" 
     public string Rarity { get; set; } = string.Empty;

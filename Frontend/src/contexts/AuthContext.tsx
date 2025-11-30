@@ -27,9 +27,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     console.error('Failed to fetch current user', error);
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('refreshToken');
+                } finally {
+                    setIsLoading(false);
                 }
+            } else {
+                setIsLoading(false);
             }
-            setIsLoading(false);
         };
 
         initAuth();

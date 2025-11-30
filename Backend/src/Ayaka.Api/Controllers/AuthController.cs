@@ -105,6 +105,7 @@ public class AuthController : ControllerBase {
                 UserID = user.UserID,
                 Email = user.Email,
                 DisplayName = user.DisplayName,
+                AdventureRank = user.AdventureRank,
                 AccountName = user.AccountName,
                 IsNewUser = isNewUser
             }

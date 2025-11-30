@@ -1,23 +1,28 @@
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import { createRootRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../contexts/AuthContext";
 
 export const Route = createRootRoute({
     component: () => {
         const {user, logout, isAuthenticated} = useAuth();
+        const navigate = useNavigate();
+        const linkProps = {
+            activeProps: {
+                className: 'navBarSelectedElement'
+            }
+        };
 
         return (
             <>
                 <div className="navBarOuterContainer">
                     <div className="navBarInnerContainer">
                         <div className="navBarContainerElementLeft">
-                            {/* TODO configure navBarSelectedElement appropriately */}
-                            <Link to="/" className="navBarSelectedElement">Home</Link>
+                            <Link to="/" {...linkProps} activeOptions={{exact: true}}>Home</Link>
                             {isAuthenticated && (
                                 <>
-                                    <Link to="/characters">Characters</Link>
-                                    <Link to="/artifacts">Artifacts</Link>
-                                    <Link to="/builds">Builds</Link>
-                                    <Link to="/teams">Teams</Link>
+                                    <Link to="/characters" {...linkProps}>Characters</Link>
+                                    <Link to="/artifacts" {...linkProps}>Artifacts</Link>
+                                    <Link to="/builds" {...linkProps}>Builds</Link>
+                                    <Link to="/teams" {...linkProps}>Teams</Link>
                                 </>
                             )}
                         </div>
@@ -25,10 +30,17 @@ export const Route = createRootRoute({
                         {isAuthenticated ? (
                             <div className="navBarContainerElementRight">
                                 <span>{user?.accountName}</span>
-                                <button onClick={() => logout()}>Log Out</button>
+                                <button onClick={() => {
+                                        logout().then(() => {
+                                            navigate({
+                                                to: "/login",
+                                                replace: true
+                                            });
+                                        })
+                                    }}>Log Out</button>
                             </div>
                         ) : (
-                            <Link to="/login">Log In</Link>
+                            <Link to="/login" {...linkProps}>Log In</Link>
                         )}
                     </div>
                 </div>
