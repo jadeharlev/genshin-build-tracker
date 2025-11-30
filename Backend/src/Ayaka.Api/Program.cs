@@ -14,9 +14,8 @@ using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
+#region Services
+builder.Services.AddScoped<IArtifactRepository, ArtifactRepository>();
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
@@ -115,6 +114,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+#endregion
 
 var app = builder.Build();
 
@@ -151,7 +151,7 @@ using (var scope = app.Services.CreateScope()) {
     }
 }
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
