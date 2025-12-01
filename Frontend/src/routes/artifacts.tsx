@@ -126,7 +126,7 @@ function RouteComponent() {
     }
 
     const handleDelete = (artifactId: number) => {
-        if(window.confirm("Are you sure you want to delete this artifact?" + artifactId)) {
+        if(window.confirm("Are you sure you want to delete this artifact?")) {
             deleteArtifactMutation.mutate(artifactId);
         }
     };
