@@ -47,6 +47,18 @@ a:visited {
   color: unset;
 }
 
+.completeProfileHeader {
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--primary-accent);
+}
+
+.completeProfileLabel {
+  color: var(--neutral-light);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
 .navBarSelectedElement {
   font-weight: bold;
 }

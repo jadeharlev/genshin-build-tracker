@@ -104,10 +104,9 @@ function LoginPage() {
                     border: '1px solid #444'
                 }}>
                 <form onSubmit={handleNewUserSubmission}>
-                    // TODO restyle these
-                    <h2 style={{marginBottom: '2rem', textAlign: 'center', color: '#646cff'}}>Complete Your Profile</h2>
+                    <h2 className="completeProfileHeader">Complete Your Profile</h2>
                     <div style={{marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
-                        <label style={{fontWeight: '500', fontSize: '1rem'}}>
+                        <label className="completeProfileLabel">
                             Adventure Rank:
                         </label>
                             <input
@@ -120,7 +119,8 @@ function LoginPage() {
                                 style={{
                                     width: '100%',
                                     padding: '0.75rem',
-                                    fontSize: '1rem'
+                                    fontSize: '1rem',
+                                    color: "white"
                                 }}
                                 placeholder="Enter your adventure rank (1-60)."
                             />
@@ -132,7 +132,7 @@ function LoginPage() {
                         flexDirection: 'column',
                         gap: '0.5rem'
                         }}>
-                        <label style={{fontWeight: '500', fontSize: '1rem'}}>
+                        <label className="completeProfileLabel">
                             Account Name:
                         </label>
                             <input
@@ -144,7 +144,8 @@ function LoginPage() {
                                 style={{
                                     width: '100%',
                                     padding: '0.75rem',
-                                    fontSize: '1rem'
+                                    fontSize: '1rem',
+                                    color: "white"
                                 }}
                                 placeholder="Enter your account name."
                             />
