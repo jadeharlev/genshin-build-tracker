@@ -1,5 +1,5 @@
 export interface Artifact {
-    artifactID: number;
+    artifactId: number;
     artifactType: string;
     rarity: 1 | 2 | 3 | 4 | 5;
     setKey: string;
