@@ -11,9 +11,9 @@ namespace Ayaka.Api.Data.Models;
     `Level` int NOT NULL,
     `MainStatType` enum('ATK%','ATK','HP%','HP','DEF%','EM','ER%','Pyro%','Dendro%','Anemo%','Electro%','Cryo%','Hydro%','Physical%','HealingBonus','CritRate','CritDMG') NOT NULL,
     `FirstArtifactStatID` int NOT NULL,
-    `SecondArtifactStatID` int NOT NULL,
-    `ThirdArtifactStatID` int NOT NULL,
-    `FourthArtifactStatID` int NOT NULL,
+    `SecondArtifactStatID` int,
+    `ThirdArtifactStatID` int,
+    `FourthArtifactStatID` int,
     PRIMARY KEY (`ArtifactID`)
 */
 

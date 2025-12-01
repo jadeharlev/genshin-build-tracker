@@ -8,8 +8,8 @@ public class ArtifactWithStats {
     public int Level { get; set; }
     public string MainStatType { get; set; }
 
-    public ArtifactStat FirstStat;
-    public ArtifactStat? SecondStat;
-    public ArtifactStat? ThirdStat;
-    public ArtifactStat? FourthStat;
+    public ArtifactStat FirstStat { get; set; }
+    public ArtifactStat? SecondStat { get; set; }
+    public ArtifactStat? ThirdStat { get; set; }
+    public ArtifactStat? FourthStat { get; set; }
 }

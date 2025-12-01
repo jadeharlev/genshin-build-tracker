@@ -1,4 +1,5 @@
 :root {
+    --deleteColor: #ea4d4d;
     --pyro: #ff4a4a;
     --hydro: #6dccff;
     --cryo: #bcf6ff;
@@ -6,6 +7,7 @@
     --anemo:#3ef0cc;
     --electro: #a131cd;
     --geo: #f3c612;
+    --threestar: ##5599dd;
     --fourstar: #8c37ae;
     --fivestar: #ffe355;
 }
@@ -126,6 +128,11 @@
     color: var(--primary-dark);
 }
 
+.filterPill.rarity3.active {
+    background-color: var(--threestar);
+    border-color: var(--threestar);
+}
+
 .filterPill.rarity4.active {
     background-color: var(--fourstar);
     border-color: var(--fourstar);
@@ -136,6 +143,14 @@
     border-color: var(--fivestar);
     color: var(--neutral-dark);
 }
+
+.filterPill.artifact.active {
+    background-color: var(--primary-accent);
+    border-color: var(--primary-accent);
+    color: var(--primary-dark);
+}
+
+
 
 .createCharacterButton {
     margin-left: auto;
@@ -270,6 +285,22 @@
     height: 80px;
 }
 
+.artifactTypeBadge {
+    font-weight: 500;
+}
+
+.mainStatBadge {
+    font-weight: 600;
+    color: var(--primary-accent);
+}
+
+.substatCell {
+    font-size: 0.85rem;
+    color: var(--neutral-light);
+    opacity: 0.9;
+}
+
+
 /* Modal */
 .modalOverlay {
     position: fixed;
@@ -364,6 +395,22 @@
     justify-content: flex-end;
     gap: 1rem;
     margin-top: 1rem;
+}
+
+.deleteButton {
+    background: none;
+    border: none;
+    color: var(--neutral-light);
+    opacity: 0.5;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    transition: opacity 0.2s, color 0.2s;
+}
+
+.deleteButton:hover {
+    opacity: 1;
+    color: var(--deleteColor);
 }
 
 .cancelButton {

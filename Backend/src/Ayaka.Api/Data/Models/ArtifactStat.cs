@@ -19,6 +19,6 @@ public class ArtifactStat {
     public string StatType { get; set; } = string.Empty;
 
     [Required] 
-    public float Value;
+    public float Value { get; set; }
 
 }

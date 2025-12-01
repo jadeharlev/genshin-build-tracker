@@ -82,7 +82,7 @@ public class ArtifactRepository : IArtifactRepository {
         return artifacts.FirstOrDefault();
     }
 
-    public async Task<int> CreateAsync(Artifact artifact, ArtifactStat stat1, ArtifactStat stat2, ArtifactStat stat3, ArtifactStat stat4) {
+    public async Task<int> CreateAsync(Artifact artifact, ArtifactStat stat1, ArtifactStat? stat2, ArtifactStat? stat3, ArtifactStat? stat4) {
         using var connection = CreateConnection();
         connection.Open();
         using var transaction = connection.BeginTransaction();
@@ -113,8 +113,8 @@ public class ArtifactRepository : IArtifactRepository {
             
 
             const string insertArtifactSqlCommand = """
-                                                    INSERT INTO artifact (ArtifactType, Rarity, SetKey, Level, MainStatType, FirstArtifactStatID, SecondArtifactStatID, ThirdArtifactStatID, FourthArtifactStatID) 
-                                                    VALUES (@ArtifactType, @Rarity, @SetKey, @Level, @MainStatType, @FirstArtifactSetID, @SecondArtifactSetID, @ThirdArtifactSetID, @FourthArtifactSetID);
+                                                    INSERT INTO artifact (ArtifactType, Rarity, SetKey, Level, MainStatType, FirstArtifactStatID, SecondArtifactStatID, ThirdArtifactStatID, FourthArtifactStatID, UserID) 
+                                                    VALUES (@ArtifactType, @Rarity, @SetKey, @Level, @MainStatType, @FirstArtifactStatID, @SecondArtifactStatID, @ThirdArtifactStatID, @FourthArtifactStatID, @UserID);
                                                     SELECT LAST_INSERT_ID();
                                                     """;
 
