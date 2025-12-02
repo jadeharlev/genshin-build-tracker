@@ -9,7 +9,7 @@ interface CharactersTableProps {
 }
 
 export function CharactersTable({characters, onRowClick}: CharactersTableProps) {
-    const [sorting, setStorting] = useState<SortingState>([]);
+    const [sorting, setSorting] = useState<SortingState>([]);
 
     const table = useReactTable({
         data: characters,
@@ -17,7 +17,7 @@ export function CharactersTable({characters, onRowClick}: CharactersTableProps) 
         state: {
             sorting
         },
-        onSortingChange: setStorting,
+        onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel()
     });
