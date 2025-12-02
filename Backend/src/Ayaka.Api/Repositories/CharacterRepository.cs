@@ -16,13 +16,14 @@ public class CharacterRepository : ICharacterRepository {
         return new MySqlConnection(connectionString);
     }
 
-    public async Task<IEnumerable<Character>> GetAllAsync() {
+    public async Task<IEnumerable<Character>> GetAllByUserAsync(int userId) {
         const string sqlCommand = """
                                   SELECT * 
                                   FROM characters
+                                  WHERE UserID = @userId;
                                   """;
         using var connection = CreateConnection();
-        return await connection.QueryAsync<Character>(sqlCommand);
+        return await connection.QueryAsync<Character>(sqlCommand, new { userId });
     }
 
     public async Task<Character?> GetByIDAsync(int characterID) {

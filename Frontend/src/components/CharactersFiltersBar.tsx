@@ -28,7 +28,7 @@ export function CharactersFilterBar({
     return (
         <>
         <div className="dataFiltersBar">
-            <input type="text" placeholder="Search characters..." className="characterSearchInput" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} />
+            <input type="text" placeholder="Search characters..." className="dataSearchInput" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} />
         <div className="filterGroup">
             <span className="filterLabel">Element:</span>
             {ELEMENTS.map((element) => (

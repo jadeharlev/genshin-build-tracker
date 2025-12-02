@@ -7,7 +7,9 @@
     --anemo:#3ef0cc;
     --electro: #a131cd;
     --geo: #f3c612;
-    --threestar: ##5599dd;
+    --onestar: #6db45c;
+    --twostar: #b96a7b;
+    --threestar: #5599dd;
     --fourstar: #8c37ae;
     --fivestar: #ffe355;
 }
@@ -39,7 +41,7 @@
     border: 1px solid var(--primary-accent);
 }
 
-.dataearchInput {
+.dataSearchInput {
     flex: 1;
     min-width: 250px;
     color: var(--neutral-light);
@@ -126,6 +128,16 @@
     background-color: var(--anemo);
     border-color: var(--anemo);
     color: var(--primary-dark);
+}
+
+.filterPill.rarity1.active {
+    background-color: var(--onestar);
+    border-color: var(--onestar);
+}
+
+.filterPill.rarity2.active {
+    background-color: var(--twostar);
+    border-color: var(--twostar);
 }
 
 .filterPill.rarity3.active {

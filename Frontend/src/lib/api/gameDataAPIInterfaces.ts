@@ -10,6 +10,7 @@ export interface BaseCharacter {
     icon: string;
 }
 
+// TODO consider mapping in value scaling https://genshin-impact.fandom.com/wiki/Weapon/Base_Attack_Scaling
 export interface BaseWeapon {
     key: string;
     name: string;
@@ -17,8 +18,8 @@ export interface BaseWeapon {
     rarity: number;
     mainStatType: string;
     mainStatValue: number;
-    subStatType: string;
-    subStatValue: number;
+    substatType: string;
+    substatValue: number;
     description: string;
     icon: string;
 }

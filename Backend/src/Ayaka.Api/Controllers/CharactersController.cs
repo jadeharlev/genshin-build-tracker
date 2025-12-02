@@ -27,9 +27,8 @@ public class CharactersController : ControllerBase {
     public async Task<IActionResult> GetAll() {
         var userId = GetCurrentUserId();
         if (userId == null) return Unauthorized();
-        
-        // TODO filter by user ID; maybe a view?
-        var characters = await characterRepository.GetAllAsync();
+
+        var characters = await characterRepository.GetAllByUserAsync(userId.Value);
         return Ok(characters);
     }
     

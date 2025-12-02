@@ -1,18 +1,19 @@
 export interface Weapon {
-    WeaponID: number;
-    BaseWeaponKey: string;
-    Level: number;
-    Ascension: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-    Refinement: 1 | 2 | 3 | 4 | 5;
-    UserID: number;
+    weaponID: number;
+    baseWeaponKey: string;
+    level: number;
+    ascension: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    refinement: 1 | 2 | 3 | 4 | 5;
+    userID: number;
 }
 
 export interface WeaponWithBaseData extends Weapon {
-    Name: string;
-    WeaponType: WeaponType;
-    Rarity: number;
-    SubstatType: string;
-    Icon: string;
+    name: string;
+    weaponType: WeaponType;
+    rarity: number;
+    substatType: string;
+    substatValue: number;
+    icon: string;
 }
 
 export type WeaponType = "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst";

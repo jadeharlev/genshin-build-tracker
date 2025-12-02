@@ -9,7 +9,7 @@ public class WeaponRepository : IWeaponRepository {
     private readonly string connectionString;
 
     public WeaponRepository(IConfiguration configuration) {
-        connectionString = configuration.GetConnectionString("DefaultConnection");
+        connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
     private IDbConnection CreateConnection() {

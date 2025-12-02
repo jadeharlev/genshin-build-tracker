@@ -22,9 +22,6 @@ public class Weapon {
     public string BaseWeaponKey { get; set; } = string.Empty;
     
     [Required]
-    public string Name { get; set; } = string.Empty;
-    
-    [Required]
     public int Level { get; set; }
     
     [Required]
