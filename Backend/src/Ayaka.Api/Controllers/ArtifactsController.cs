@@ -37,9 +37,9 @@ public class ArtifactsController : ControllerBase {
 
     [HttpGet("{artifactID}")]
     public async Task<IActionResult> GetByID(int artifactID) {
-        var artifacts = await artifactRepository.GetByIdAsync(artifactID);
-        if (artifacts == null) return NotFound();
-        return Ok(artifacts);
+        var artifact = await artifactRepository.GetByIdAsync(artifactID);
+        if (artifact == null) return NotFound();
+        return Ok(artifact);
     }
 
     [HttpPost]

@@ -129,8 +129,8 @@ public class ArtifactRepository : IArtifactRepository {
         }
     }
 
-    public async Task<bool> UpdateAsync(Artifact artifact, ArtifactStat stat1, ArtifactStat stat2, ArtifactStat stat3,
-        ArtifactStat stat4) {
+    public async Task<bool> UpdateAsync(Artifact artifact, ArtifactStat stat1, ArtifactStat? stat2, ArtifactStat? stat3,
+        ArtifactStat? stat4) {
         using var connection = CreateConnection();
         connection.Open();
         using var transaction = connection.BeginTransaction();

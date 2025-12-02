@@ -37,8 +37,7 @@ function RouteComponent() {
 
     const [selectedTypes, setSelectedTypes] = useState<ArtifactType[]>([]);
     const [selectedRarities, setSelectedRarities] = useState<number[]>([]);
-    // TODO add set filtering
-    const [selectedSets, _] = useState<string[]>([]);
+    const [selectedSets, setSelectedSets] = useState<string[]>([]);
 
     const combinedArtifacts = useMemo(() => {
         if(!artifacts || !artifactSets) return [];
@@ -110,12 +109,11 @@ function RouteComponent() {
             : [...previous, rarity]);
     };
 
-    // const handleSetToggle = (set: string) => {
-    //     setSelectedSets((previous) =>
-    //         previous.includes(set)
-    //         ? previous.filter((e) => e !== set)
-    //         : [...previous, set]);
-    // };
+
+    const handleSetToggle = (selectedOptions: readonly BaseArtifactSet[]) => {
+        const setKeys = selectedOptions.map((set) => set.key);
+        setSelectedSets(setKeys);
+    };
 
     const handleCreateClick = () => {
         setModalIsOpen(true);
@@ -176,11 +174,13 @@ function RouteComponent() {
             <div className="charactersPage">
                 <h1 className="charactersPageHeader">Artifacts</h1>
                 <ArtifactsFilterBar
-                selectedTypes={selectedTypes}
-                onTypeToggle={handleTypeToggle}
-                selectedRarities={selectedRarities}
-                onRarityToggle={handleRarityToggle}
-                onCreateClick={handleCreateClick} />
+                    selectedTypes={selectedTypes}
+                    onTypeToggle={handleTypeToggle}
+                    selectedRarities={selectedRarities}
+                    onRarityToggle={handleRarityToggle}
+                    onCreateClick={handleCreateClick}
+                    artifactSets={artifactSets}
+                    onSetChange={handleSetToggle} selectedSets={selectedSets} />
                 <ArtifactsTable artifacts={filteredArtifacts} onRowClick={handleRowClick} onDelete={handleDelete}/>
                 <AddArtifactModal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)} artifactSets={artifactSets ?? []} />
             </div>
