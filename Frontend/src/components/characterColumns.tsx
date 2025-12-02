@@ -8,7 +8,7 @@ export const characterColumns = [
         id: 'icon',
         header: '',
         cell: (info) => (
-        <img src={`/images/characters/${info.getValue()}`} alt={info.row.original.name} className="characterIcon" />
+        <img src={`/images/characters/${info.getValue()}`} alt={info.row.original.name} className="dataIcon" />
     ),
     enableSorting: false,
     size: 30,

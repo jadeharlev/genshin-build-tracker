@@ -33,8 +33,8 @@ export function ArtifactsTable({artifacts, onRowClick, onDelete}: ArtifactsTable
     }
 
     return (
-        <div className="charactersTableContainer">
-            <table className="charactersTable">
+        <div className="dataTableContainer">
+            <table className="dataTable">
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>

@@ -15,7 +15,7 @@ export const artifactColumns = (onDelete?: (artifactId: number) => void) => [
         cell: (info) => (
             <img src={`/images/artifacts/${info.getValue()}`}
             alt={info.row.original.setName}
-            className="characterIcon" />
+            className="dataIcon" />
         ),
         enableSorting: false,
         size: 60,

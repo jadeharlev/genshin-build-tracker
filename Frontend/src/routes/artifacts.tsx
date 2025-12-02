@@ -131,9 +131,9 @@ function RouteComponent() {
 
     if(artifactsLoading || setsLoading) {
         return (
-            <div className="charactersPage">
-                <h1 className="charactersPageHeader">Artifacts</h1>
-                <div className="charactersTableContainer">
+            <div className="dataPage">
+                <h1 className="dataPageHeader">Artifacts</h1>
+                <div className="dataTableContainer">
                     <div className="loadingSkeleton skeletonRow"></div>
                     <div className="loadingSkeleton skeletonRow"></div>
                     <div className="loadingSkeleton skeletonRow"></div>
@@ -144,8 +144,8 @@ function RouteComponent() {
 
     if(artifactsError) {
             return (
-                <div className="charactersPage">
-                    <h1 className="charactersPageHeader">Artifacts</h1>
+                <div className="dataPage">
+                    <h1 className="dataPageHeader">Artifacts</h1>
                     <div className="emptyState">
                         <div className="emptyStateIcon">X</div>
                         <h2 className="emptyStateTitle">Error loading artifacts.</h2>
@@ -157,8 +157,8 @@ function RouteComponent() {
 
         if(combinedArtifacts.length === 0) {
             return (
-                <div className="charactersPage">
-                    <h1 className="charactersPageHeader">Artifacts</h1>
+                <div className="dataPage">
+                    <h1 className="dataPageHeader">Artifacts</h1>
                     <div className="emptyState">
                         <div className="emptyStateIcon">X</div>
                         <h2 className="emptyStateTitle">No artifacts yet.</h2>
@@ -171,8 +171,8 @@ function RouteComponent() {
         }
 
         return (
-            <div className="charactersPage">
-                <h1 className="charactersPageHeader">Artifacts</h1>
+            <div className="dataPage">
+                <h1 className="dataPageHeader">Artifacts</h1>
                 <ArtifactsFilterBar
                     selectedTypes={selectedTypes}
                     onTypeToggle={handleTypeToggle}

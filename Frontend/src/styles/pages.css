@@ -12,7 +12,7 @@
     --fivestar: #ffe355;
 }
 
-.charactersPage {
+.dataPage {
     padding: 2rem;
     max-width: 1920px;
     margin: 0 auto;
@@ -21,12 +21,12 @@
     align-items: center;
 }
 
-.charactersPageHeader {
+.dataPageHeader {
     color: var(--neutral-light);
     margin-bottom: 2rem;
 }
 
-.characterFiltersBar {
+.dataFiltersBar {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -39,7 +39,7 @@
     border: 1px solid var(--primary-accent);
 }
 
-.characterSearchInput {
+.dataearchInput {
     flex: 1;
     min-width: 250px;
     color: var(--neutral-light);
@@ -150,7 +150,7 @@
     color: var(--primary-dark);
 }
 
-.createCharacterButton {
+.createDataButton {
     margin-left: auto;
     background-color: var(--primary-accent);
     color: var(--primary-dark);
@@ -159,12 +159,12 @@
     font-weight: 600;
 }
 
-.createCharacterButton:hover {
+.createDataButton:hover {
     background-color: var(--neutral-light);
     border-color: var(--primary-accent);
 }
 
-.charactersTableContainer {
+.dataTableContainer {
     width: 100%;
     background-color: var(--neutral-dark);
     border-radius: 11px;
@@ -172,13 +172,13 @@
     overflow: hidden;
 }
 
-.charactersTable {
+.dataTable {
     width: 100%;
     border-collapse: collapse;
     color: var(--neutral-light);
 }
 
-.charactersTable th {
+.dataTable th {
     background-color: var(--primary-accent);
     color: var(--neutral-dark);
     padding: 1rem;
@@ -191,45 +191,45 @@
     user-select: none;
 }
 
-.charactersTable th.sortable {
+.dataTable th.sortable {
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
-.charactersTable th.sortable:hover {
+.dataTable th.sortable:hover {
     background-color: rgba(152, 200, 232, 0.1);
 }
 
-.charactersTable th .sortIndicator {
+.dataTable th .sortIndicator {
     margin-left: 0.5rem;
     opacity: 0.5;
 }
 
-.charactersTable th .sortIndicator.active {
+.dataTable th .sortIndicator.active {
     opacity: 1;
 }
 
 
-.charactersTable tbody tr {
+.dataTable tbody tr {
     border-bottom: 1px solid rgba(152, 200, 232, 0.2);
     transform: background-color 0.2s;
     cursor: pointer;
 }
 
-.charactersTable tbody tr:hover {
+.dataTable tbody tr:hover {
     background-color: rgba(152, 200, 232, 0.05);
 }
 
-.charactersTable tbody tr:last-child {
+.dataTable tbody tr:last-child {
     border-bottom: none;
 }
 
-.charactersTable td {
+.dataTable td {
     padding: 1rem;
     font-size: 0.95rem;
 }
 
-.characterIcon {
+.dataIcon {
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -448,16 +448,16 @@
 
 
 @media (max-width: 768px) {
-    .charactersPage {
+    .dataPage {
         padding: 1rem;
     }
 
-    .characterFiltersBar {
+    .dataFiltersBar {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .characterSearchInput {
+    .dataearchInput {
         width: 100%;
     }
 
@@ -465,20 +465,20 @@
         justify-content: flex-start;
     }
 
-    .createCharacterButton {
+    .createDataButton {
         margin-left: 0;
         width: 100%;
     }
 
-    .charactersTable {
+    .dataTable {
         font-style: 0.85rem;
     }
 
-    .charactersTable th, .charactersTable td {
+    .dataTable th, .dataTable td {
         padding: 0.75rem 0.5rem;
     }
 
-    .charactersTable .hideMobile {
+    .dataTable .hideMobile {
         display: none;
     }
 

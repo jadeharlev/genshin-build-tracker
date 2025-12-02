@@ -125,9 +125,9 @@ function RouteComponent() {
 
     if(charactersLoading || baseCharactersLoading) {
         return(
-            <div className="charactersPage">
-                <h1 className="charactersPageHeader">Characters</h1>
-                <div className="charactersTableContainer">
+            <div className="dataPage">
+                <h1 className="dataPageHeader">Characters</h1>
+                <div className="dataTableContainer">
                     <div className="loadingSkeleton skeletonRow"></div>
                     <div className="loadingSkeleton skeletonRow"></div>
                     <div className="loadingSkeleton skeletonRow"></div>
@@ -138,8 +138,8 @@ function RouteComponent() {
 
     if(charactersError) {
         return (
-            <div className="charactersPage">
-                <h1 className="charactersPageHeader">Characters</h1>
+            <div className="dataPage">
+                <h1 className="dataPageHeader">Characters</h1>
                 <div className="emptyState">
                     <div className="emptyStateIcon">X</div>
                     <h2 className="emptyStateTitle">Error loading characters.</h2>
@@ -151,8 +151,8 @@ function RouteComponent() {
 
     if(combinedCharacters.length === 0) {
         return (
-            <div className="charactersPage">
-                <h1 className="charactersPageHeader">Characters</h1>
+            <div className="dataPage">
+                <h1 className="dataPageHeader">Characters</h1>
                 <div className="emptyState">
                     <div className="emptyStateIcon">X</div>
                     <h2 className="emptyStateTitle">No characters yet.</h2>
@@ -164,8 +164,8 @@ function RouteComponent() {
     }
 
     return (
-        <div className="charactersPage">
-            <h1 className="charactersPageHeader">Characters</h1>
+        <div className="dataPage">
+            <h1 className="dataPageHeader">Characters</h1>
             <CharactersFilterBar searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             selectedElements={selectedElements}

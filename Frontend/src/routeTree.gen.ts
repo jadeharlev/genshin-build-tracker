@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WeaponsRouteImport } from './routes/weapons'
 import { Route as TeamsRouteImport } from './routes/teams'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as CharactersRouteImport } from './routes/characters'
@@ -16,6 +17,11 @@ import { Route as BuildsRouteImport } from './routes/builds'
 import { Route as ArtifactsRouteImport } from './routes/artifacts'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WeaponsRoute = WeaponsRouteImport.update({
+  id: '/weapons',
+  path: '/weapons',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamsRoute = TeamsRouteImport.update({
   id: '/teams',
   path: '/teams',
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/characters': typeof CharactersRoute
   '/login': typeof LoginRoute
   '/teams': typeof TeamsRoute
+  '/weapons': typeof WeaponsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/characters': typeof CharactersRoute
   '/login': typeof LoginRoute
   '/teams': typeof TeamsRoute
+  '/weapons': typeof WeaponsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/characters': typeof CharactersRoute
   '/login': typeof LoginRoute
   '/teams': typeof TeamsRoute
+  '/weapons': typeof WeaponsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,8 +90,16 @@ export interface FileRouteTypes {
     | '/characters'
     | '/login'
     | '/teams'
+    | '/weapons'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/artifacts' | '/builds' | '/characters' | '/login' | '/teams'
+  to:
+    | '/'
+    | '/artifacts'
+    | '/builds'
+    | '/characters'
+    | '/login'
+    | '/teams'
+    | '/weapons'
   id:
     | '__root__'
     | '/'
@@ -91,6 +108,7 @@ export interface FileRouteTypes {
     | '/characters'
     | '/login'
     | '/teams'
+    | '/weapons'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -100,10 +118,18 @@ export interface RootRouteChildren {
   CharactersRoute: typeof CharactersRoute
   LoginRoute: typeof LoginRoute
   TeamsRoute: typeof TeamsRoute
+  WeaponsRoute: typeof WeaponsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/weapons': {
+      id: '/weapons'
+      path: '/weapons'
+      fullPath: '/weapons'
+      preLoaderRoute: typeof WeaponsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/teams': {
       id: '/teams'
       path: '/teams'
@@ -156,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   CharactersRoute: CharactersRoute,
   LoginRoute: LoginRoute,
   TeamsRoute: TeamsRoute,
+  WeaponsRoute: WeaponsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

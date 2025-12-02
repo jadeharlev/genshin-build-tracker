@@ -27,7 +27,7 @@ export function CharactersFilterBar({
 } : CharacterFilterBarProps) {
     return (
         <>
-        <div className="characterFiltersBar">
+        <div className="dataFiltersBar">
             <input type="text" placeholder="Search characters..." className="characterSearchInput" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} />
         <div className="filterGroup">
             <span className="filterLabel">Element:</span>
@@ -50,7 +50,7 @@ export function CharactersFilterBar({
             ))}
         </div>
 
-        <button className="createCharacterButton" onClick={onCreateClick}>+</button>
+        <button className="createDataButton" onClick={onCreateClick}>+</button>
         </div>
         </>
 

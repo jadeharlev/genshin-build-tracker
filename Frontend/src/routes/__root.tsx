@@ -21,6 +21,7 @@ export const Route = createRootRoute({
                                 <>
                                     <Link to="/characters" {...linkProps}>Characters</Link>
                                     <Link to="/artifacts" {...linkProps}>Artifacts</Link>
+                                    <Link to="/weapons" {...linkProps}>Weapons</Link>
                                     <Link to="/builds" {...linkProps}>Builds</Link>
                                     <Link to="/teams" {...linkProps}>Teams</Link>
                                 </>

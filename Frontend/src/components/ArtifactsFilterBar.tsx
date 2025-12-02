@@ -65,7 +65,7 @@ const selectStyles = {
 export function ArtifactsFilterBar({selectedTypes, onTypeToggle, selectedRarities, onRarityToggle, onCreateClick, artifactSets, selectedSets, onSetChange}: ArtifactsFilterBarProps) {
     const currentlySelectedSet = artifactSets.filter((set) => selectedSets.includes(set.key));
     return (
-        <div className="characterFiltersBar">
+        <div className="dataFiltersBar">
             <div className="filterGroup">
                 <div className="filterLabel">Set:</div>
                 <Select defaultValue={currentlySelectedSet} onChange={(newValue) => onSetChange(newValue)} options={artifactSets}
@@ -100,7 +100,7 @@ export function ArtifactsFilterBar({selectedTypes, onTypeToggle, selectedRaritie
                 ))}
             </div>
 
-            <button className="createCharacterButton" onClick={onCreateClick}>
+            <button className="createdataButton" onClick={onCreateClick}>
                 +
             </button>
         </div>

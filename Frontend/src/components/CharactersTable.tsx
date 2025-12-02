@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { CharacterWithBaseData } from "../lib/api/charactersInterfaces";
 import { flexRender, getCoreRowModel, getSortedRowModel, type SortingState, useReactTable } from "@tanstack/react-table";
-import { characterColumns } from "./columns";
+import { characterColumns } from "./characterColumns";
 
 interface CharactersTableProps {
     characters: CharacterWithBaseData[];
@@ -35,8 +35,8 @@ export function CharactersTable({characters, onRowClick}: CharactersTableProps) 
     }
 
     return (
-        <div className="charactersTableContainer">
-            <table className="charactersTable">
+        <div className="dataTableContainer">
+            <table className="dataTable">
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>
