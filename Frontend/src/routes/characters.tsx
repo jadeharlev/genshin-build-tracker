@@ -38,7 +38,7 @@ function RouteComponent() {
     const [selectedElements, setSelectedElements] = useState<string[]>([]);
     const [selectedRarities, setSelectedRarities] = useState<number[]>([]);
     const [selectedWeaponTypes, setSelectedWeaponTypes] = useState<string[]>([]);
-    const [modalIsOpen, setModelOpen] = useState(false);
+    const [modalIsOpen, setModalOpen] = useState(false);
 
     const combinedCharacters = useMemo(() => {
 
@@ -73,7 +73,7 @@ function RouteComponent() {
         mutationFn: charactersApi.create,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['characters']});
-            setModelOpen(false);
+            setModalOpen(false);
             toast.success('Added character successfully!');
         },
         onError: (error) => {
@@ -83,11 +83,11 @@ function RouteComponent() {
     });
 
     const handleCreateClick = () => {
-        setModelOpen(true);
+        setModalOpen(true);
     }
 
     const handleModalClose = () => {
-        setModelOpen(false);
+        setModalOpen(false);
     }
 
     const handleCreateCharacter = (data: CreateCharacterRequest) => {
