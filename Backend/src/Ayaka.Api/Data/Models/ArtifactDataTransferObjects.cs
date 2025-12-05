@@ -35,5 +35,5 @@ public class UpdateArtifactRequest {
 public class UpdateArtifactStatRequest {
     [Required] public int ArtifactStatID { get; set; }
     [Required] public string StatType { get; set; }
-    [Required] public int Value { get; set; }
+    [Required] public float Value { get; set; }
 }

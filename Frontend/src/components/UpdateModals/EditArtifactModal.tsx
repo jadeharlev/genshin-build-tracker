@@ -1,28 +1,22 @@
-import { useState, type FormEvent } from "react";
-import type { BaseArtifactSet } from "../lib/api/gameDataAPIInterfaces";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ARTIFACT_TYPES, type ArtifactType, VALID_MAIN_STATS, VALID_SUBSTATS, type CreateArtifactRequest } from "../lib/api/artifactsInterfaces";
-import { artifactsApi } from "../lib/api/artifactsAPI";
-import toast from "react-hot-toast";
+import { useEffect, useState, type FormEvent } from "react";
+import { VALID_SUBSTATS, type ArtifactType, type ArtifactWithSetData, type UpdateArtifactRequest } from "../../lib/api/artifactsInterfaces";
 
-interface AddArtifactModalProps {
+interface EditArtifactModalProps {
     isOpen: boolean;
     onClose: () => void;
-    artifactSets: BaseArtifactSet[];
+    onSubmit: (artifactID: number, data: UpdateArtifactRequest) => void;
+    artifact: ArtifactWithSetData | null;
+    isSubmitting?: boolean;
 }
 
-export function AddArtifactModal({
+export function EditArtifactModal({
     isOpen,
     onClose,
-    artifactSets
-}: AddArtifactModalProps) {
-    const queryClient = useQueryClient();
-
-    const [setKey, setSetKey] = useState<string>('');
-    const [artifactType, setArtifactType] = useState<ArtifactType>('Flower');
-    const [rarity, setRarity] = useState<string>('5');
+    onSubmit,
+    artifact,
+    isSubmitting = false,
+}: EditArtifactModalProps) {
     const [level, setLevel] = useState<string>('0');
-    const [mainStatType, setMainStatType] = useState<string>('HP');
 
     const [stat1Type, setStat1Type] = useState<string>('ATK');
     const [stat1Value, setStat1Value] = useState<string>('0');
@@ -33,94 +27,61 @@ export function AddArtifactModal({
     const [stat4Type, setStat4Type] = useState<string>('');
     const [stat4Value, setStat4Value] = useState<string>('');
 
-    const createMutation = useMutation({
-        mutationFn: artifactsApi.create,
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['artifacts']});
-            toast.success('Artifact added successfully!');
-            resetForm();
-            onClose();
-        },
-        onError: () => {
-            toast.error('Failed to add artifact.');
+    useEffect(() => {
+        if(artifact) {
+            setLevel(artifact.level.toString());
+            setStat1Type(artifact.firstStat.statType);
+            setStat1Value(artifact.firstStat.value.toString());
+            setStat2Type(artifact.secondStat?.statType || '');
+            setStat2Value(artifact.secondStat?.value.toString() || '');
+            setStat3Type(artifact.thirdStat?.statType || '');
+            setStat3Value(artifact.thirdStat?.value.toString() || '');
+            setStat4Type(artifact.fourthStat?.statType || '');
+            setStat4Value(artifact.fourthStat?.value.toString() || '');
         }
-    });
-
-    const resetForm = () => {
-        setSetKey('');
-        setArtifactType('Flower');
-        setRarity('5');
-        setLevel('0');
-        setMainStatType('HP');
-        setStat1Type('ATK');
-        setStat1Value('0');
-        setStat2Type('');
-        setStat2Value('')
-        setStat3Type('');
-        setStat3Value('');
-        setStat4Type('');
-        setStat4Value('');
-    };
+    }, [artifact]);
 
     const handleClose = () => {
-        resetForm();
         onClose();
     }
 
     const handleSubmit = (formEvent: FormEvent) => {
         formEvent.preventDefault();
-        if(!setKey) {
-            toast.error('Please select an artifact set.')
-            return;
-        }
+        if(!artifact) return;
+        const levelNumber = parseInt(level) || 1;
 
-        const request: CreateArtifactRequest = {
-            artifactType,
-            rarity: parseInt(rarity) as 1 | 2 | 3 | 4 | 5,
-            setKey,
-            level: parseInt(level) || 0,
-            mainStatType,
+        onSubmit(artifact.artifactId, {
+            rarity: artifact.rarity,
+            artifactID: artifact.artifactId,
+            artifactType: artifact.artifactType as ArtifactType,
+            setKey: artifact.setKey,
+            level: levelNumber,
+            mainStatType: artifact.mainStatType,
             firstStat: {
+                artifactStatID: artifact.firstStat.artifactStatID,
                 statType: stat1Type,
                 value: parseFloat(stat1Value) || 0,
             },
-        };
-
-        if(stat2Type) {
-            request.secondStat = {
+            secondStat: (stat2Type && artifact.secondStat?.artifactStatID !== undefined) ? {
+                artifactStatID: artifact.secondStat.artifactStatID,
                 statType: stat2Type,
                 value: parseFloat(stat2Value) || 0,
-            };
-        }
-        if(stat3Type) {
-            request.thirdStat = {
+            } : undefined,
+            thirdStat: (stat3Type && artifact.thirdStat?.artifactStatID !== undefined) ? {
+                artifactStatID: artifact.thirdStat.artifactStatID,
                 statType: stat3Type,
                 value: parseFloat(stat3Value) || 0,
-            };
-        }
-        if(stat4Type) {
-            request.fourthStat = {
+            } : undefined,
+            fourthStat: (stat4Type && artifact.fourthStat?.artifactStatID !== undefined) ? {
+                artifactStatID: artifact.fourthStat.artifactStatID,
                 statType: stat4Type,
                 value: parseFloat(stat4Value) || 0,
-            };
-        }
+            } : undefined,
+        });
+    }
 
-        createMutation.mutate(request);
-    };
 
-    const validMainStats = VALID_MAIN_STATS[artifactType] || [];
-
-    const handleTypeChange = (newType: ArtifactType) => {
-        setArtifactType(newType);
-        const newValidStats = VALID_MAIN_STATS[newType];
-        if(!newValidStats.includes(mainStatType as any)) {
-            setMainStatType(newValidStats[0]);
-        }
-    };
-
-    if(!isOpen) return null;
-
-    const sortedSets = [...artifactSets].sort((a, b) => a.name.localeCompare(b.name));
+    if(!isOpen || !artifact) return null;
 
     return (
         <div className="modalOverlay" onClick={handleClose}>
@@ -132,52 +93,12 @@ export function AddArtifactModal({
 
                 <form onSubmit={handleSubmit} className="modalForm">
 
-                    {/* Set Selection */}
-                    <div className="formGroup">
-                        <label htmlFor="setKey">Artifact Set</label>
-                        <select name="setKey" value={setKey} id="setKey" onChange={(e) => setSetKey(e.target.value)} required>
-                            <option value="">Select an artifact set...</option>
-                            {sortedSets.map((set) => (
-                                <option value={set.key} key={set.key}>
-                                    {set.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Type, Rarity, Level */}
+                    {/*  Level */}
                     <div className="formRow">
-                        <div className="formGroup">
-                            <label htmlFor="artifactType">Type</label>
-                            <select name="artifactType" id="artifactType" value={artifactType} onChange={(e) => handleTypeChange(e.target.value as ArtifactType)} required>
-                                {ARTIFACT_TYPES.map((type) => (
-                                    <option key={type} value={type}>{type}</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="formGroup">
-                            <label htmlFor="rarity">Rarity</label>
-                            <select name="rarity" id="rarity" value={rarity} onChange={(e) => setRarity(e.target.value)} required>
-                                {[1,2,3,4,5].map((rarity) => (
-                                    <option key={rarity} value={rarity.toString()}>{rarity}★</option>
-                                ))}
-                            </select>
-                        </div>
                         <div className="formGroup">
                             <label htmlFor="level">Level</label>
                             <input type="number" id="level" min={0} max={20} value={level} onChange={(e) => setLevel(e.target.value)} required/>
                         </div>
-                    </div>
-
-                    {/* Main Stat */}
-                    <div className="formGroup">
-                        <label htmlFor="mainStat">Main Stat</label>
-                        <select id="mainStat" value={mainStatType} onChange={(e) => setMainStatType(e.target.value)} required>
-                            {validMainStats.map((stat) => (
-                                    <option key={stat} value={stat}>{stat}</option>
-                                ))}
-                        </select>
                     </div>
 
                     {/* Substats */}
@@ -277,12 +198,12 @@ export function AddArtifactModal({
                         <button type="button" className="cancelButton" onClick={handleClose}>
                             Cancel
                         </button>
-                        <button type="submit" className="submitButton" disabled={!setKey || createMutation.isPending}>
-                            {createMutation.isPending ? "Adding..." : "Add Artifact"}
+                        <button type="submit" className="submitButton" disabled={isSubmitting}>
+                            {isSubmitting ? "Saving..." : "Save Changes"}
                         </button>
                     </div>
                 </form>
             </div>
         </div>
-    )
+    );
 }

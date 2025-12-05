@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
-import type { CreateCharacterRequest } from "../lib/api/charactersInterfaces";
-import type { BaseCharacter } from "../lib/api/gameDataAPIInterfaces";
+import type { BaseCharacter } from "../../lib/api/gameDataAPIInterfaces";
+import type { CreateCharacterRequest } from "../../lib/api/charactersInterfaces";
 
 interface AddCharacterModalProps {
     isOpen: boolean;
@@ -20,7 +20,7 @@ export function AddCharacterModal({
     const [selectedCharacterKey, setSelectedCharacterKey] = useState<string>('');
     const [level, setLevel] = useState<string>('1');
     const [ascension, setAscension] = useState<0 | 1 | 2 | 3 | 4 | 5 | 6>(0);
-    const [constellation, setConstellation] = useState<0 | 1 | 2 | 3 | 4 | 5 | 6>(0);
+    const [constellationLevel, setConstellation] = useState<0 | 1 | 2 | 3 | 4 | 5 | 6>(0);
     const [talentLevel1, setTalentLevel1] = useState<string>('1');
     const [talentLevel2, setTalentLevel2] = useState<string>('1');
     const [talentLevel3, setTalentLevel3] = useState<string>('1');
@@ -56,7 +56,7 @@ export function AddCharacterModal({
             rarity: selectedCharacter!.rarity.toString() as "4" | "5",
             level: levelNumber,
             ascension,
-            constellation,
+            constellationLevel,
             talentLevel1: talentLevel1Number,
             talentLevel2: talentLevel2Number,
             talentLevel3: talentLevel3Number
@@ -111,7 +111,7 @@ export function AddCharacterModal({
                     {/* Constellation */}
                     <div className="formGroup">
                         <label htmlFor="constellation">Constellation</label>
-                        <select id="constellation" value={constellation} onChange={(e) => setConstellation(parseInt(e.target.value) as 0 | 1 | 2 | 3 | 4 | 5 | 6)} required>
+                        <select id="constellation" value={constellationLevel} onChange={(e) => setConstellation(parseInt(e.target.value) as 0 | 1 | 2 | 3 | 4 | 5 | 6)} required>
                             {[0,1,2,3,4,5,6].map((constellation) => (
                                     <option key={constellation} value={constellation}>C{constellation}</option>
                                 ))}

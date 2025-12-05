@@ -6,14 +6,15 @@ import { characterColumns } from "./characterColumns";
 interface CharactersTableProps {
     characters: CharacterWithBaseData[];
     onRowClick?: (character: CharacterWithBaseData) => void;
+    onDelete?: (characterId: number) => void;
 }
 
-export function CharactersTable({characters, onRowClick}: CharactersTableProps) {
+export function CharactersTable({characters, onRowClick, onDelete}: CharactersTableProps) {
     const [sorting, setSorting] = useState<SortingState>([]);
 
     const table = useReactTable({
         data: characters,
-        columns: characterColumns,
+        columns: characterColumns(onDelete),
         state: {
             sorting
         },

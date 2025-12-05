@@ -18,7 +18,7 @@ export interface CreateCharacterRequest {
     name: string;
     rarity: "4" | "5";
     ascension: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-    constellation: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    constellationLevel: 0 | 1 | 2 | 3 | 4 | 5 | 6;
     talentLevel1: number;
     talentLevel2: number;
     talentLevel3: number;
@@ -27,8 +27,11 @@ export interface CreateCharacterRequest {
 export interface UpdateCharacterRequest {
     characterID: number;
     level: number;
+    name: string;
+    rarity: "4" | "5";
+    baseCharacterKey: string;
     ascension: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-    constellation: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    constellationLevel: 0 | 1 | 2 | 3 | 4 | 5 | 6;
     talentLevel1: number;
     talentLevel2: number;
     talentLevel3: number;

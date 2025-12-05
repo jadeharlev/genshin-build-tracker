@@ -17,7 +17,7 @@ public class CharactersControllerTests {
 
     [Fact]
     public async Task GetAllReturnsOkResult() {
-        mockRepository.Setup(repository => repository.GetAllAsync()).ReturnsAsync(new List<Character>());
+        mockRepository.Setup(repository => repository.GetAllByUserAsync(0)).ReturnsAsync(new List<Character>());
         var result = await controller.GetAll();
         var okResult = Assert.IsType<OkObjectResult>(result);
         Assert.IsType<List<Character>>(okResult.Value);

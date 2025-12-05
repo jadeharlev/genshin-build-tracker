@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
-import type { BaseWeapon } from "../lib/api/gameDataAPIInterfaces";
-import type { Weapon } from "../lib/api/weaponsInterfaces";
+import type { BaseWeapon } from "../../lib/api/gameDataAPIInterfaces";
+import type { Weapon } from "../../lib/api/weaponsInterfaces";
 
 interface AddWeaponModalProps {
     isOpen: boolean;

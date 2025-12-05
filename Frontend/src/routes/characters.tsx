@@ -4,11 +4,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { gameDataApi } from '../lib/api/gameDataAPI';
 import type { BaseCharacter } from '../lib/api/gameDataAPIInterfaces';
-import type { Character, CharacterWithBaseData, CreateCharacterRequest } from '../lib/api/charactersInterfaces';
+import type { Character, CharacterWithBaseData, CreateCharacterRequest, UpdateCharacterRequest } from '../lib/api/charactersInterfaces';
 import { CharactersFilterBar } from '../components/CharactersFiltersBar';
 import { CharactersTable } from '../components/CharactersTable';
 import toast from 'react-hot-toast';
-import { AddCharacterModal } from '../components/AddCharacterModal';
+import { AddCharacterModal } from '../components/AddModals/AddCharacterModal';
+import { EditCharacterModal } from '../components/UpdateModals/EditCharacterModal';
 
 export const Route = createFileRoute('/characters')({
     component: RouteComponent,
@@ -32,13 +33,26 @@ function RouteComponent() {
         queryFn: gameDataApi.getAllCharacters
     });
 
+    const deleteCharacterMutation = useMutation({
+        mutationFn: charactersApi.delete,
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['characters']});
+            toast.success('Character deleted successfully!');
+        },
+        onError: () => {
+            toast.error('Failed to delete character.');
+        }
+    });
+
     const queryClient = useQueryClient();
 
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedElements, setSelectedElements] = useState<string[]>([]);
     const [selectedRarities, setSelectedRarities] = useState<number[]>([]);
     const [selectedWeaponTypes, setSelectedWeaponTypes] = useState<string[]>([]);
-    const [modalIsOpen, setModalOpen] = useState(false);
+    const [addModalIsOpen, setAddModalOpen] = useState(false);
+    const [editModalIsOpen, setEditModalOpen] = useState(false);
+    const [selectedCharacter, setSelectedCharacter] = useState<CharacterWithBaseData | null>(null);
 
     const combinedCharacters = useMemo(() => {
 
@@ -73,7 +87,7 @@ function RouteComponent() {
         mutationFn: charactersApi.create,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['characters']});
-            setModalOpen(false);
+            setAddModalOpen(false);
             toast.success('Added character successfully!');
         },
         onError: (error) => {
@@ -82,16 +96,45 @@ function RouteComponent() {
         }
     });
 
+    const updateCharacterMutation = useMutation({
+        mutationFn: ({characterID, data}: {characterID: number, data: UpdateCharacterRequest}) => charactersApi.update(characterID, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['characters']});
+            setEditModalOpen(false);
+            setSelectedCharacter(null);
+            toast.success('Updated character successfully!');
+        },
+        onError: (error) => {
+            console.error("Failed to update character:", error);
+            toast.error("Failed to update character.");
+        }
+    });
+
     const handleCreateClick = () => {
-        setModalOpen(true);
+        setAddModalOpen(true);
     }
 
-    const handleModalClose = () => {
-        setModalOpen(false);
+    const handleCreateModalClose = () => {
+        setAddModalOpen(false);
+    }
+
+    const handleEditModalClose = () => {
+        setEditModalOpen(false);
+        setSelectedCharacter(null);
     }
 
     const handleCreateCharacter = (data: CreateCharacterRequest) => {
         createCharacterMutation.mutate(data);
+    };
+
+    const handleUpdateCharacter = (characterID: number, data: UpdateCharacterRequest) => {
+        updateCharacterMutation.mutate({characterID, data});
+    }
+
+    const handleDelete = (characterID: number) => {
+        if(window.confirm("Are you sure you want to delete this character?")) {
+            deleteCharacterMutation.mutate(characterID);
+        }
     };
 
     const handleElementToggle = (element: string) => {
@@ -119,8 +162,8 @@ function RouteComponent() {
     };
 
     const handleRowClick = (character: CharacterWithBaseData) => {
-        // TODO navigate
-        console.log('Character clicked:', character);
+        setSelectedCharacter(character);
+        setEditModalOpen(true);
     };
 
     if(charactersLoading || baseCharactersLoading) {
@@ -159,6 +202,7 @@ function RouteComponent() {
                     <p className="emptyStateMessage">Create a character to get started!</p>
                     <button className="createCharacterButton" onClick={handleCreateClick}>+ Create a Character</button>
                 </div>
+                <AddCharacterModal isOpen={addModalIsOpen} onClose={handleCreateModalClose} onSubmit={handleCreateCharacter} baseCharacters={baseCharacters ?? []} isSubmitting={createCharacterMutation.isPending}></AddCharacterModal>
             </div>
         )
     }
@@ -175,8 +219,9 @@ function RouteComponent() {
             selectedWeaponTypes={selectedWeaponTypes}
             onWeaponTypeToggle={handleWeaponTypeToggle}
             onCreateClick={handleCreateClick} />
-            <CharactersTable characters={filteredCharacters} onRowClick={handleRowClick} />
-            <AddCharacterModal isOpen={modalIsOpen} onClose={handleModalClose} onSubmit={handleCreateCharacter} baseCharacters={baseCharacters ?? []} isSubmitting={createCharacterMutation.isPending}></AddCharacterModal>
+            <CharactersTable characters={filteredCharacters} onRowClick={handleRowClick} onDelete={handleDelete}/>
+            <AddCharacterModal isOpen={addModalIsOpen} onClose={handleCreateModalClose} onSubmit={handleCreateCharacter} baseCharacters={baseCharacters ?? []} isSubmitting={createCharacterMutation.isPending}></AddCharacterModal>
+            <EditCharacterModal isOpen={editModalIsOpen} onClose={handleEditModalClose} onSubmit={handleUpdateCharacter} character={selectedCharacter} isSubmitting={updateCharacterMutation.isPending}></EditCharacterModal>
         </div>
     )
 }

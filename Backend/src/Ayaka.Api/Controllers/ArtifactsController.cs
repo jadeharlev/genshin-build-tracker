@@ -126,13 +126,13 @@ public class ArtifactsController : ControllerBase {
         ArtifactStat? stat4 = null;
 
         if (request.SecondStat != null) {
-            stat2 = new ArtifactStat {ArtifactStatID = request.SecondStat.Value, StatType = request.SecondStat.StatType, Value = request.SecondStat.Value};
+            stat2 = new ArtifactStat {ArtifactStatID = request.SecondStat.ArtifactStatID, StatType = request.SecondStat.StatType, Value = request.SecondStat.Value};
         }
         if (request.ThirdStat != null) {
-            stat3 = new ArtifactStat {ArtifactStatID = request.ThirdStat.Value, StatType = request.ThirdStat.StatType, Value = request.ThirdStat.Value};
+            stat3 = new ArtifactStat {ArtifactStatID = request.ThirdStat.ArtifactStatID, StatType = request.ThirdStat.StatType, Value = request.ThirdStat.Value};
         }
         if (request.FourthStat != null) {
-            stat4 = new ArtifactStat {ArtifactStatID = request.FourthStat.Value, StatType = request.FourthStat.StatType, Value = request.FourthStat.Value};
+            stat4 = new ArtifactStat {ArtifactStatID = request.FourthStat.ArtifactStatID, StatType = request.FourthStat.StatType, Value = request.FourthStat.Value};
         }
 
         try {

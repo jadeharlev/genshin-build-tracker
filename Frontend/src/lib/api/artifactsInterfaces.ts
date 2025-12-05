@@ -36,10 +36,10 @@ export interface UpdateArtifactRequest {
     setKey: string;
     level: number;
     mainStatType: string;
-    firstStat: CreateArtifactStatRequest;
-    secondStat?: CreateArtifactStatRequest;
-    thirdStat?: CreateArtifactStatRequest;
-    fourthStat?: CreateArtifactStatRequest;
+    firstStat: UpdateArtifactStatRequest;
+    secondStat?: UpdateArtifactStatRequest;
+    thirdStat?: UpdateArtifactStatRequest;
+    fourthStat?: UpdateArtifactStatRequest;
 }
 
 export type ArtifactType = "Flower" | "Feather" | "Sands" | "Goblet" | "Circlet";
@@ -47,6 +47,12 @@ export type MainStatType = "HP" | "ATK" | "DEF" | "HP%" | "ATK%" | "DEF%" | "EM"
 export type SubStatType = "HP" | "ATK" | "DEF" | "HP%" | "ATK%" | "DEF%" | "EM" | "ER%" | "CritRate" | "CritDMG";
 
 export interface CreateArtifactStatRequest {
+    statType: string;
+    value: number;
+}
+
+export interface UpdateArtifactStatRequest {
+    artifactStatID: number;
     statType: string;
     value: number;
 }

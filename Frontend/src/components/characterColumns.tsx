@@ -3,7 +3,7 @@ import type { CharacterWithBaseData } from "../lib/api/charactersInterfaces";
 
 const columnHelper = createColumnHelper<CharacterWithBaseData>();
 
-export const characterColumns = [
+export const characterColumns = (onDelete?: (characterID: number) => void) => [
     columnHelper.accessor('icon', {
         id: 'icon',
         header: '',
@@ -110,5 +110,19 @@ export const characterColumns = [
         ),
         enableSorting: true,
         size: 40
+    }),
+
+    columnHelper.display({
+        id: 'actions',
+        header: '',
+        cell: (info) => (
+            <button className="deleteButton" onClick={(e) => {
+                e.stopPropagation();
+                onDelete?.(info.row.original.characterID);
+            }}>
+                x
+            </button>
+        ),
+        size: 50
     })
 ]
