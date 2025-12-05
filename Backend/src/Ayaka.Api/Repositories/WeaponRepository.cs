@@ -55,8 +55,7 @@ public class WeaponRepository : IWeaponRepository {
                                   SET BaseWeaponKey = @BaseWeaponKey,
                                       Level = @Level,
                                       Ascension = @Ascension,
-                                      Refinement = @Refinement,
-                                      @UserID = @UserID
+                                      Refinement = @Refinement
                                   WHERE UserID = @UserID AND WeaponID = @WeaponID;
                                   """;
         using var connection = CreateConnection();

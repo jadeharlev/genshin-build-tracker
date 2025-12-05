@@ -9,6 +9,7 @@ import { toast } from 'react-hot-toast';
 import { WeaponsFilterBar } from '../components/WeaponsFilterBar';
 import { WeaponsTable } from '../components/WeaponsTable';
 import { AddWeaponModal } from '../components/AddModals/AddWeaponModal';
+import { EditWeaponModal } from '../components/UpdateModals/EditWeaponModal';
 
 export const Route = createFileRoute('/weapons')({
     component: RouteComponent,
@@ -38,6 +39,30 @@ function RouteComponent() {
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedRarities, setSelectedRarities] = useState<number[]>([]);
     const [modalIsOpen, setModalOpen] = useState(false);
+    const [editModalIsOpen, setEditModalIsOpen] = useState(false);
+    const [selectedWeapon, setSelectedWeapon] = useState<WeaponWithBaseData | null>(null);
+
+    const handleEditModalClose = () => {
+        setEditModalIsOpen(false);
+        setSelectedWeapon(null);
+    }
+
+    const handleUpdateWeapon = (data: Weapon) => {
+        updateWeaponMutation.mutate(data);
+    };
+
+    const updateWeaponMutation = useMutation({
+        mutationFn: (data: Weapon) => weaponsApi.update(data.weaponID, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['weapons'] });
+            toast.success('Weapon updated successfully');
+            handleEditModalClose();
+        },
+        onError: (error) => {
+            console.error("Failed to update weapon:", error);
+            toast.error('Failed to update weapon');
+        }
+    });
 
     const combinedWeapons = useMemo(() => {
         if(!weapons || !baseWeapons) return [];
@@ -101,7 +126,8 @@ function RouteComponent() {
     }
 
     const handleRowClick = (weapon: WeaponWithBaseData) => {
-        console.log("Weapon clicked:", weapon);
+        setSelectedWeapon(weapon);
+        setEditModalIsOpen(true);
     }
 
     const handleDelete = (weaponID: number) => {
@@ -195,6 +221,13 @@ function RouteComponent() {
                 onSubmit={handleCreateWeapon}
                 baseWeapons={baseWeapons || []}
                 isSubmitting={createWeaponMutation.isPending}
+            />
+            <EditWeaponModal
+                isOpen={editModalIsOpen}
+                onClose={handleEditModalClose}
+                onSubmit={handleUpdateWeapon}
+                weapon={selectedWeapon}
+                isSubmitting={updateWeaponMutation.isPending}
             />
         </div>
     )

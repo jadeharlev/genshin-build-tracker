@@ -123,7 +123,8 @@ function RouteComponent() {
             toast.success('Artifact updated successfully!');
             handleEditModalClose();
         },
-        onError: () => {
+        onError: (error) => {
+            console.error("Failed to update artifact:", error);
             toast.error('Failed to update artifact.');
         }
     });
