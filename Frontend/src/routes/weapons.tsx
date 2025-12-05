@@ -8,7 +8,7 @@ import type { BaseWeapon } from '../lib/api/gameDataAPIInterfaces';
 import { toast } from 'react-hot-toast';
 import { WeaponsFilterBar } from '../components/WeaponsFilterBar';
 import { WeaponsTable } from '../components/WeaponsTable';
-import { AddWeaponModal } from '../components/AddWeaponModal';
+import { AddWeaponModal } from '../components/AddModals/AddWeaponModal';
 
 export const Route = createFileRoute('/weapons')({
     component: RouteComponent,
