@@ -24,9 +24,9 @@ public class TeamRepository : ITeamRepository {
                                   """;
         
         using var connection = CreateConnection();
-        var result = await connection.QueryAsync<dynamic>(sqlCommand, new { userId });
+        var result = await connection.QueryAsync<TeamWithCharacters>(sqlCommand, new { userId });
 
-        return result.Select(MapToTeamWithCharacters).ToList();
+        return result;
     }
 
     public async Task<TeamWithCharacters?> GetByIdAsync(int teamId) {
@@ -37,10 +37,8 @@ public class TeamRepository : ITeamRepository {
                                   """;
         
         using var connection = CreateConnection();
-        var result = await connection.QueryFirstOrDefaultAsync<dynamic>(sqlCommand, new { teamId });
-
-        if (result == null) return result;
-        return MapToTeamWithCharacters(result);
+        var result = await connection.QueryFirstOrDefaultAsync<TeamWithCharacters>(sqlCommand, new { teamId });
+        return result;
     }
 
     public async Task<int> CreateAsync(Team team) {
@@ -75,46 +73,5 @@ public class TeamRepository : ITeamRepository {
                                   """;
         using var connection = CreateConnection();
         return await connection.ExecuteAsync(sqlCommand, new {teamId}) > 0;
-    }
-
-    private TeamWithCharacters MapToTeamWithCharacters(dynamic row) {
-        return new TeamWithCharacters
-        {
-            TeamID = row.TeamID,
-            TeamName = row.TeamName,
-            UserID = row.UserID,
-            FirstCharacter = (row.FirstCharacterID != null)
-                ? new TeamCharacterSlot
-                {
-                    CharacterID = row.FirstCharacterID,
-                    BaseCharacterKey = row.FirstCharacterID,
-                    Level = row.FirstCharacterLevel
-                }
-                : null,
-            SecondCharacter = (row.SecondCharacterID != null)
-                ? new TeamCharacterSlot
-                {
-                    CharacterID = row.SecondCharacterID,
-                    BaseCharacterKey = row.SecondCharacterID,
-                    Level = row.SecondCharacterLevel
-                }
-                : null,
-            ThirdCharacter = (row.ThirdCharacterID != null)
-                ? new TeamCharacterSlot
-                {
-                    CharacterID = row.ThirdCharacterID,
-                    BaseCharacterKey = row.ThirdCharacterID,
-                    Level = row.ThirdCharacterLevel
-                }
-                : null,
-            FourthCharacter = (row.FourthCharacterID != null)
-                ? new TeamCharacterSlot
-                {
-                    CharacterID = row.FourthCharacterID,
-                    BaseCharacterKey = row.FourthCharacterID,
-                    Level = row.FourthCharacterLevel
-                }
-                : null
-        };
     }
 }

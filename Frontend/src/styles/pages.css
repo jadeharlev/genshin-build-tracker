@@ -458,6 +458,182 @@
     cursor: not-allowed;
 }
 
+.teamsToolbar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.teamsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3rem;
+    row-gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.teamCard {
+    background-color: var(--neutral-dark);
+    border: 1px solid var(--primary-accent);
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.teamCard:hover {
+    border-color: var(--neutral-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.teamCardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(152, 200, 232, 0.2);
+}
+
+.teamCardName {
+    color: var(--neutral-light);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.teamCardActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.teamCardActionButton {
+    background: transparent;
+    border: none;
+    border: var(--primary-accent);
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.teamCardActionButton:hover {
+    background-color: rgba(152, 200, 232, 0.1);
+    color: var(--neutral-light);
+}
+
+.teamCardDeleteButton:hover {
+    background-color: rgba(234, 77, 77, 0.1);
+    color: var(--deleteColor);
+}
+
+.teamCardSlots {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.teamSlot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background-color: rgba(0,0,0,0.2);
+    min-height: 130px;
+}
+
+.teamSlotFilled {
+    background-color: rgba(152, 200, 232, 0.05);
+}
+
+.teamSlotEmpty {
+    border: 2px dashed rgba(152,200,232,0.3);
+    background-color: transparent;;
+    justify-content: center;
+}
+
+.teamSlotPlaceholder {
+    color: rgba(152, 200, 232, 0.5);
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.teamSlotIcon {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 0.25rem;
+}
+
+.teamSlotName {
+    color: var(--neutral-light);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-align: center;
+    word-spacing: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.teamSlotLevel {
+    color: var(--primary-accent);
+    font-size: 0.65rem;
+}
+
+.teamSlotsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.teamSlotSelect {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.teamSlotSelect label {
+    color: var(--neutral-light);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.teamSlotSelect select {
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background-color: #1a1a1a;
+    color: var(--neutral-light);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.teamSlotSelect select:focus {
+    outline: 2px solid var(--primary-accent);
+    border-color: var(--primary-accent);
+}
+
+.skeletonCard {
+    height: 160px;
+    border-radius: 12px;
+}
+
+@media (max-width: 1100px) {
+    .teamsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .teamSlotsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
 
 @media (max-width: 768px) {
     .dataPage {
@@ -469,7 +645,7 @@
         align-items: stretch;
     }
 
-    .dataearchInput {
+    .dataSearchInput {
         width: 100%;
     }
 
@@ -501,5 +677,27 @@
     .modalContent {
         width: 95%;
         margin: 1rem;
+    }
+
+    .teamsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .teamSlotsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .teamCardSlots {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.25rem;
+    }
+
+    .teamSlotIcon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .teamSlotName {
+        font-size: 0.65rem;
     }
 }
