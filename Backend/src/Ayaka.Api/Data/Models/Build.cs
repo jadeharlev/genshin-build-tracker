@@ -6,21 +6,17 @@ namespace Ayaka.Api.Data.Models;
 [Table("build")]
 public class Build {
     [Key]
-    public string BuildID { get; set; }
+    public int BuildID { get; set; }
     [Required]
     public string BuildName { get; set; }
     [Required]
     public int CharacterID { get; set; }
-    [Required]
-    public int FlowerID { get; set; }
-    [Required]
-    public int FeatherID { get; set; }
-    [Required]
-    public int SandsID { get; set; }
-    [Required] 
-    public int CircletID { get; set; }
+    public int? FlowerID { get; set; }
+    public int? FeatherID { get; set; }
+    public int? SandsID { get; set; }
+    public int? GobletID { get; set; }
+    public int? CircletID { get; set; }
+    public int? WeaponID { get; set; }
     [Required]
     public int UserID { get; set; }
-    [Required]
-    public int WeaponID { get; set; }
 }
