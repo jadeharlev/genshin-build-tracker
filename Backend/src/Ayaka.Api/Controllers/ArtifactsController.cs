@@ -1,5 +1,7 @@
+using System.Globalization;
 using Ayaka.Api.Data.Models;
 using Ayaka.Api.Repositories;
+using CsvHelper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -162,6 +164,22 @@ public class ArtifactsController : ControllerBase {
             logger.LogError(e, "Error deleting artifact " + artifactID);
             return StatusCode(500, "Failed to delete artifact: " + e.Message);
         }
+    }
+
+    [HttpGet("export")]
+    public async Task<IActionResult> ExportCSV() {
+        var userId = GetCurrentUserId();
+        if (userId == null) return Unauthorized();
+
+        var artifacts = await artifactRepository.GetAllByUserAsync(userId.Value);
+        using var memoryStream = new MemoryStream();
+        await using var writer = new StreamWriter(memoryStream);
+        await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        
+        csv.WriteRecords(artifacts);
+        await writer.FlushAsync();
+        
+        return File(memoryStream.ToArray(), "text/csv", "artifacts.csv");
     }
     
 }

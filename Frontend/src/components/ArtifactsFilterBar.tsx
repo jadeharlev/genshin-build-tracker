@@ -1,6 +1,7 @@
 import Select from "react-select";
 import { ARTIFACT_RARITIES, ARTIFACT_TYPES, type ArtifactType } from "../lib/api/artifactsInterfaces";
 import type { BaseArtifactSet } from "../lib/api/gameDataAPIInterfaces";
+import { artifactsApi } from "../lib/api/artifactsAPI";
 
 interface ArtifactsFilterBarProps {
     selectedTypes: ArtifactType[];
@@ -99,6 +100,8 @@ export function ArtifactsFilterBar({selectedTypes, onTypeToggle, selectedRaritie
                     </button>
                 ))}
             </div>
+
+            <button className="exportButton" onClick={() => artifactsApi.exportCSV()}>Export CSV</button>
 
             <button className="createdataButton" onClick={onCreateClick}>
                 +

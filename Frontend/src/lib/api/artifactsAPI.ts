@@ -22,5 +22,19 @@ export const artifactsApi = {
 
     delete: async(artifactID: number): Promise<void> => {
         await api.delete<void>(`/artifacts/${artifactID}`);
+    },
+
+    exportCSV: async() => {
+        const response = await api.get<Blob>('/artifacts/export', {
+            responseType: 'blob',
+        });
+
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'artifacts.csv');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     }
 }
