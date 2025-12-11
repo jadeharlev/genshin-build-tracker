@@ -84,49 +84,25 @@ public class ArtifactRepository : IArtifactRepository {
 
     public async Task<int> CreateAsync(Artifact artifact, ArtifactStat stat1, ArtifactStat? stat2, ArtifactStat? stat3, ArtifactStat? stat4) {
         using var connection = CreateConnection();
-        connection.Open();
-        using var transaction = connection.BeginTransaction();
-        try {
-            const string insertStatSqlCommand = """
-                                                INSERT INTO artifactstat(StatType, Value)
-                                                VALUES (@StatType, @Value);
-                                                SELECT LAST_INSERT_ID();
-                                                """;
-
-            var stat1Id = await connection.QuerySingleAsync<int>(insertStatSqlCommand, stat1, transaction);
-            artifact.FirstArtifactStatID = stat1Id;
-            
-            if (stat2 != null) {
-                var stat2Id = await connection.QuerySingleAsync<int>(insertStatSqlCommand, stat2, transaction);
-                artifact.SecondArtifactStatID = stat2Id;
-            }
-
-            if (stat3 != null) {
-                var stat3Id = await connection.QuerySingleAsync<int>(insertStatSqlCommand, stat3, transaction);
-                artifact.ThirdArtifactStatID = stat3Id;
-            }
-
-            if (stat4 != null) {
-                var stat4Id = await connection.QuerySingleAsync<int>(insertStatSqlCommand, stat4, transaction);
-                artifact.FourthArtifactStatID = stat4Id;
-            }
-            
-
-            const string insertArtifactSqlCommand = """
-                                                    INSERT INTO artifact (ArtifactType, Rarity, SetKey, Level, MainStatType, FirstArtifactStatID, SecondArtifactStatID, ThirdArtifactStatID, FourthArtifactStatID, UserID) 
-                                                    VALUES (@ArtifactType, @Rarity, @SetKey, @Level, @MainStatType, @FirstArtifactStatID, @SecondArtifactStatID, @ThirdArtifactStatID, @FourthArtifactStatID, @UserID);
-                                                    SELECT LAST_INSERT_ID();
-                                                    """;
-
-            var artifactId = await connection.QuerySingleAsync<int>(insertArtifactSqlCommand, artifact, transaction);
-
-            transaction.Commit();
-            return artifactId;
-        }
-        catch {
-            transaction.Rollback();
-            throw;
-        }
+        var sqlParameters = new DynamicParameters();
+        sqlParameters.Add("ca_artifact_type", artifact.ArtifactType);
+        sqlParameters.Add("ca_rarity", artifact.Rarity);
+        sqlParameters.Add("ca_set_key", artifact.SetKey);
+        sqlParameters.Add("ca_level", artifact.Level);
+        sqlParameters.Add("ca_main_stat_type", artifact.MainStatType);
+        sqlParameters.Add("ca_user_id", artifact.UserID);
+        sqlParameters.Add("ca_stat1_type", stat1.StatType);
+        sqlParameters.Add("ca_stat1_value", stat1.Value);
+        sqlParameters.Add("ca_stat2_type", stat2?.StatType);
+        sqlParameters.Add("ca_stat2_value", stat2?.Value);
+        sqlParameters.Add("ca_stat3_type", stat3?.StatType);
+        sqlParameters.Add("ca_stat3_value", stat3?.Value);
+        sqlParameters.Add("ca_stat4_type", stat4?.StatType);
+        sqlParameters.Add("ca_stat4_value", stat4?.Value);
+        sqlParameters.Add("ca_artifact_id", dbType: DbType.Int32, direction: ParameterDirection.Output);
+        
+        await connection.ExecuteAsync("sp_createartifact", sqlParameters, commandType: CommandType.StoredProcedure);
+        return sqlParameters.Get<int>("ca_artifact_id");
     }
 
     public async Task<bool> UpdateAsync(Artifact artifact, ArtifactStat stat1, ArtifactStat? stat2, ArtifactStat? stat3,
