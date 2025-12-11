@@ -182,9 +182,9 @@ function RouteComponent() {
             <div className="dataPage">
                 <h1 className="dataPageHeader">Builds</h1>
                 <div className="emptyState">
-                    <div className="emptyStateIcon">-</div>
+                    <div className="emptyStateIcon">X</div>
                     <h2 className="emptyStateTitle">No builds found.</h2>
-                    <p className="emptyStateMessage">Create a build to get started.</p>
+                    <p className="emptyStateMessage">Create a build to get started!</p>
                     <button className="createCharacterButton" onClick={handleCreateClick}>+ Create Build</button>
                 </div>
                 <AddBuildModal

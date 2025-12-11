@@ -138,6 +138,16 @@ a:visited {
   color: var(--primary-medium);
   border-radius: 11px;
   padding: 3rem;
+  min-width: 400px;
+  min-height: 250px;
+}
+
+.homePageCards {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .homePageCardHeader {
