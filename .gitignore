@@ -417,6 +417,9 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-# Ayaka Cache Files
+# SQL backup files
+backup_*.sql
+
+# Ayaka cache files
 images/
 game-data-cache/

@@ -8,7 +8,7 @@ services:
       - "8080:8080"
       - "8081:8081"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Port=3306;Database=ayaka_db;Uid=ayaka_user;Pwd=4C57y3p9oi68sHypttu
+      - ConnectionStrings__DefaultConnection=Server=db;Port=3306;Database=ayaka_db;Uid=${MYSQL_USER};Pwd=${MYSQL_PASSWORD}
       - ConnectionStrings__Redis=cache:6379
       - ASPNETCORE_URLS=http://+:8080;https://+:8081
       - ASPNETCORE_ENVIRONMENT=Development
@@ -33,14 +33,16 @@ services:
     container_name: ayaka-mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: Q3BRq3RArU6GyXjxh8e
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ayaka_db
-      MYSQL_USER: ayaka_user
-      MYSQL_PASSWORD: 4C57y3p9oi68sHypttu
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./ayaka_db.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./extra_sql_commands.sql:/docker-entrypoint-initdb.d/02-extra.sql:ro
 
   cache:
     image: redis:8-alpine
