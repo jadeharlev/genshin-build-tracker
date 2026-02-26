@@ -51,7 +51,7 @@ public class ArtifactRepository : IArtifactRepository {
 
     public async Task<ArtifactWithStats?> GetByIdAsync(int artifactId) {
         const string sqlCommand = """
-                                  SELECT a.ArtifactId, a.ArtifactType, a.Rarity, a.SetKey, a.Level, a.MainStatType,
+                                  SELECT a.ArtifactId, a.ArtifactType, a.Rarity, a.SetKey, a.Level, a.MainStatType, a.UserID,
                                          as1.ArtifactStatID, as1.StatType, as1.Value,
                                          as2.ArtifactStatID, as2.StatType, as2.Value,
                                          as3.ArtifactStatID, as3.StatType, as3.Value,
@@ -84,6 +84,8 @@ public class ArtifactRepository : IArtifactRepository {
 
     public async Task<int> CreateAsync(Artifact artifact, ArtifactStat stat1, ArtifactStat? stat2, ArtifactStat? stat3, ArtifactStat? stat4) {
         using var connection = CreateConnection();
+        
+        // dynamic parameters match up to the procedure parameters
         var sqlParameters = new DynamicParameters();
         sqlParameters.Add("ca_artifact_type", artifact.ArtifactType);
         sqlParameters.Add("ca_rarity", artifact.Rarity);
@@ -99,6 +101,8 @@ public class ArtifactRepository : IArtifactRepository {
         sqlParameters.Add("ca_stat3_value", stat3?.Value);
         sqlParameters.Add("ca_stat4_type", stat4?.StatType);
         sqlParameters.Add("ca_stat4_value", stat4?.Value);
+        
+        // specified extra info because it's an OUT parameter
         sqlParameters.Add("ca_artifact_id", dbType: DbType.Int32, direction: ParameterDirection.Output);
         
         await connection.ExecuteAsync("sp_createartifact", sqlParameters, commandType: CommandType.StoredProcedure);
@@ -109,6 +113,9 @@ public class ArtifactRepository : IArtifactRepository {
         ArtifactStat? stat4) {
         using var connection = CreateConnection();
         connection.Open();
+        
+        // using a C# transaction here since I already demonstrated vanilla MySQL transactions elsewhere,
+        // and I had already written this code (which is easier anyways)
         using var transaction = connection.BeginTransaction();
         try {
             const string updateArtifactSqlCommand = """

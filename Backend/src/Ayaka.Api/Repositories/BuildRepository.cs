@@ -46,21 +46,6 @@ namespace Ayaka.Api.Repositories;
     LEFT JOIN artifact a5 ON b.CircletID = a5.ArtifactID;
  */
 
-/**
- * Rider-generated DDL recreation (removed foreign keys for brevity)
-(
-    BuildID     int auto_increment primary key,
-    BuildName   varchar(255) not null,
-    CharacterID int          not null,
-    FlowerID    int          null,
-    FeatherID   int          null,
-    SandsID     int          null,
-    GobletID    int          null,
-    CircletID   int          null,
-    UserID      int          not null,
-    WeaponID    int          null,
- */
-
 public class BuildRepository : IBuildRepository {
     private readonly string connectionString;
     

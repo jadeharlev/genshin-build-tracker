@@ -1,10 +1,13 @@
 using Ayaka.Api.Data.Models;
+using Ayaka.Api.Extensions;
 using Ayaka.Api.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ayaka.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase {
     private readonly IUserRepository userRepository;
@@ -12,9 +15,15 @@ public class UsersController : ControllerBase {
     public UsersController(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    
 
     [HttpGet("{userID}")]
     public async Task<IActionResult> GetByID(int userID) {
+        var currentUserId = User.GetUserId();
+        if (currentUserId == null || userID != currentUserId) {
+            return Forbid();
+        }
+        
         var users = await userRepository.GetByIDAsync(userID);
         if (users == null) {
             return NotFound();
@@ -28,20 +37,22 @@ public class UsersController : ControllerBase {
         if (userID != user.UserID) {
             return BadRequest();
         }
+        
+        var currentUserId = User.GetUserId();
+        if (currentUserId == null || userID != currentUserId) {
+            return Forbid();
+        }
 
         var success = await userRepository.UpdateAsync(user);
         return success ? NoContent() : NotFound();
     }
     
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] User user) {
-        var newID = await userRepository.CreateAsync(user);
-        user.UserID = newID;
-        return CreatedAtAction(nameof(GetByID), new { userID = newID }, user);
-    }
-    
     [HttpDelete("{userID}")]
     public async Task<IActionResult> Delete(int userID) {
+        var currentUserId = User.GetUserId();
+        if (currentUserId == null || userID != currentUserId) {
+            return Forbid();
+        }
         var success = await userRepository.DeleteAsync(userID);
         return success ? NoContent() : NotFound();
     }

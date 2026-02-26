@@ -8,7 +8,7 @@ public class UserRepository : IUserRepository {
     private readonly string connectionString;
     
     public UserRepository(IConfiguration configuration) {
-        this.connectionString = configuration.GetConnectionString("DefaultConnection");
+        this.connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
     private IDbConnection CreateConnection() {
@@ -48,16 +48,8 @@ public class UserRepository : IUserRepository {
                                   SELECT LAST_INSERT_ID();
                                   """;
         using var connection = CreateConnection();
-    
-        try {
-            var id = await connection.QuerySingleAsync<int>(sqlCommand, user);
-            return id;
-        }
-        catch (Exception ex) {
-            // Log the actual SQL error
-            Console.WriteLine($"Database error: {ex.Message}");
-            throw;
-        }
+        
+        return await connection.QuerySingleAsync<int>(sqlCommand, user);
     }
 
     public async Task<bool> UpdateAsync(User user) {

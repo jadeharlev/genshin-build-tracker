@@ -1,4 +1,5 @@
 using Ayaka.Api.Data.Models;
+using Ayaka.Api.Extensions;
 using Ayaka.Api.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,18 +18,9 @@ public class BuildsController : ControllerBase {
         this.logger = logger;
     }
 
-    private int? GetCurrentUserId() {
-        // user ID is stored in the JWT claim
-        var userIdClaim = User.FindFirst("userId")?.Value;
-        if (userIdClaim != null && int.TryParse(userIdClaim, out var userId)) {
-            return userId;
-        }
-        return null;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAll() {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
 
         var builds = await buildRepository.GetAllByUserAsync(userId.Value);
@@ -37,7 +29,7 @@ public class BuildsController : ControllerBase {
 
     [HttpGet("{buildId}")]
     public async Task<IActionResult> GetById(int buildId) {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
 
         var build = await buildRepository.GetByIdAsync(buildId);
@@ -50,7 +42,7 @@ public class BuildsController : ControllerBase {
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateBuildRequest request) {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
 
         var build = new Build
@@ -79,7 +71,7 @@ public class BuildsController : ControllerBase {
 
     [HttpPut("{buildId}")]
     public async Task<IActionResult> Update(int buildId, [FromBody] UpdateBuildRequest request) {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
 
         var existingBuild = await buildRepository.GetByIdAsync(buildId);
@@ -113,7 +105,7 @@ public class BuildsController : ControllerBase {
 
     [HttpDelete("{buildId}")]
     public async Task<IActionResult> Delete(int buildId) {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
 
         try {

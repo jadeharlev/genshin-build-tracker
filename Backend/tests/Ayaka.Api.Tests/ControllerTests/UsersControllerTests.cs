@@ -38,23 +38,6 @@ public class UsersControllerTests {
     }
 
     [Fact]
-    public async Task CreateReturnsCreatedAtActionWithNewUser() {
-        var UserToCreate = new User
-        {
-            UserID = 1,
-            AccountName = "Wave",
-            AdventureRank = 60
-        };
-        mockRepository.Setup(repository => repository.CreateAsync(UserToCreate)).ReturnsAsync(1);
-        var result = await controller.Create(UserToCreate);
-        var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
-        var createdUser = Assert.IsType<User>(createdAtActionResult.Value);
-        Assert.Equal(UserToCreate, createdUser);
-        Assert.Equal(nameof(UsersController.GetByID), createdAtActionResult.ActionName);
-        Assert.Equal(1, createdAtActionResult.RouteValues["userID"]);
-    }
-
-    [Fact]
     public async Task UpdateReturnsBadRequestWhenUserIDIsInvalid() {
         var result = await controller.Update(1, new User()); 
         Assert.IsType<BadRequestResult>(result);

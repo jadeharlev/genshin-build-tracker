@@ -1,4 +1,5 @@
 using Ayaka.Api.Data.Models;
+using Ayaka.Api.Extensions;
 using Ayaka.Api.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,22 +18,12 @@ public class WeaponsController : ControllerBase {
         this.logger = logger;
     }
 
-    private int? GetCurrentUserId() {
-        // user ID is stored in the JWT claim
-        var userIdClaim = User.FindFirst("userId")?.Value;
-        if (userIdClaim != null && int.TryParse(userIdClaim, out var userId)) {
-            return userId;
-        }
-
-        return null;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAll() {
-        var userId = GetCurrentUserId();
-        if (userId == null) return Unauthorized();
+        var currentUserId = User.GetUserId();
+        if (currentUserId == null) return Unauthorized();
 
-        var weapons = await weaponRepository.GetAllByUserAsync(userId.Value);
+        var weapons = await weaponRepository.GetAllByUserAsync(currentUserId.Value);
         return Ok(weapons);
     }
 
@@ -40,14 +31,20 @@ public class WeaponsController : ControllerBase {
     public async Task<IActionResult> GetByID(int weaponID) {
         var weapon = await weaponRepository.GetByIdAsync(weaponID);
         if (weapon == null) return NotFound();
+        var currentUserId = User.GetUserId();
+        
+        if (currentUserId == null || weapon.UserID != currentUserId) {
+            return Forbid();
+        }
+        
         return Ok(weapon);
     }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Weapon weapon) {
-        var userId = GetCurrentUserId();
-        if (userId == null) return Unauthorized();
-        weapon.UserID = userId.Value;
+        var currentUserId = User.GetUserId();
+        if (currentUserId == null) return Unauthorized();
+        weapon.UserID = currentUserId.Value;
         try {
             var newId = await weaponRepository.CreateAsync(weapon);
             var createdWeapon = await weaponRepository.GetByIdAsync(newId);
@@ -61,10 +58,16 @@ public class WeaponsController : ControllerBase {
 
     [HttpPut("{weaponID}")]
     public async Task<IActionResult> Update(int weaponID, [FromBody] Weapon weapon) {
-        var userId = GetCurrentUserId();
-        if (userId == null) return Unauthorized();
+        var currentUserId = User.GetUserId();
+        if (currentUserId == null) return Unauthorized();
 
         if (weaponID != weapon.WeaponID) return BadRequest();
+
+        var existingWeapon = await weaponRepository.GetByIdAsync(weaponID);
+        if (existingWeapon == null)  return NotFound();
+        if (existingWeapon.UserID != currentUserId) return Forbid();
+        
+        weapon.UserID = currentUserId.Value;
         
         try {
             var success = await weaponRepository.UpdateAsync(weapon);
@@ -79,8 +82,13 @@ public class WeaponsController : ControllerBase {
 
     [HttpDelete("{weaponID}")]
     public async Task<IActionResult> Delete(int weaponID) {
-        var userId = GetCurrentUserId();
-        if (userId == null) return Unauthorized();
+        var currentUserId = User.GetUserId();
+        if (currentUserId == null) return Unauthorized();
+
+        var existingWeapon = await weaponRepository.GetByIdAsync(weaponID);
+        if (existingWeapon == null)  return NotFound();
+        if (existingWeapon.UserID != currentUserId) return Forbid();
+        
         try {
             var success = await weaponRepository.DeleteAsync(weaponID);
             if (!success) return NotFound();

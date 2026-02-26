@@ -1,4 +1,5 @@
 using Ayaka.Api.Data.Models;
+using Ayaka.Api.Extensions;
 using Ayaka.Api.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,18 +15,9 @@ public class CharactersController : ControllerBase {
         this.characterRepository = characterRepository;
     }
 
-    private int? GetCurrentUserId() {
-        // user ID is stored in the JWT claim
-        var userIdClaim = User.FindFirst("userId")?.Value;
-        if (userIdClaim != null && int.TryParse(userIdClaim, out var userId)) {
-            return userId;
-        }
-        return null;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAll() {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
 
         var characters = await characterRepository.GetAllByUserAsync(userId.Value);
@@ -34,15 +26,18 @@ public class CharactersController : ControllerBase {
     
     [HttpGet("{characterID}")]
     public async Task<IActionResult> GetByID(int characterID) {
-        var characters = await characterRepository.GetByIDAsync(characterID);
-        if (characters == null)
-            return NotFound();
-        return Ok(characters);
+        var character = await characterRepository.GetByIDAsync(characterID);
+        var userId = User.GetUserId();
+        if(userId == null) return Unauthorized();
+        
+        if(character == null) return NotFound();
+        if(character.UserID != userId) return Unauthorized();
+        return Ok(character);
     }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Character character) {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
 
         character.UserID = userId.Value;
@@ -54,7 +49,7 @@ public class CharactersController : ControllerBase {
 
     [HttpPut("{characterID}")]
     public async Task<IActionResult> Update(int characterID, [FromBody] Character character) {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
         
         if (characterID != character.CharacterID) {
@@ -75,7 +70,7 @@ public class CharactersController : ControllerBase {
 
     [HttpDelete("{characterID}")]
     public async Task<IActionResult> Delete(int characterID) {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
         
         var existingCharacter = await characterRepository.GetByIDAsync(characterID);

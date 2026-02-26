@@ -7,6 +7,7 @@ public class ArtifactWithStats {
     public string SetKey { get; set; }
     public int Level { get; set; }
     public string MainStatType { get; set; }
+    public int UserID { get; set; }
 
     public ArtifactStat FirstStat { get; set; }
     public ArtifactStat? SecondStat { get; set; }

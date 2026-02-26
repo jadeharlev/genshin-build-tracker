@@ -1,5 +1,6 @@
 using System.Globalization;
 using Ayaka.Api.Data.Models;
+using Ayaka.Api.Extensions;
 using Ayaka.Api.Repositories;
 using CsvHelper;
 using Microsoft.AspNetCore.Authorization;
@@ -18,19 +19,10 @@ public class ArtifactsController : ControllerBase {
         this.artifactRepository = artifactRepository;
         this.logger = logger;
     }
-    
-    private int? GetCurrentUserId() {
-        // user ID is stored in the JWT claim
-        var userIdClaim = User.FindFirst("userId")?.Value;
-        if (userIdClaim != null && int.TryParse(userIdClaim, out var userId)) {
-            return userId;
-        }
-        return null;
-    }
 
     [HttpGet]
     public async Task<IActionResult> GetAll() {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
 
         var artifacts = await artifactRepository.GetAllByUserAsync(userId.Value);
@@ -39,14 +31,19 @@ public class ArtifactsController : ControllerBase {
 
     [HttpGet("{artifactID}")]
     public async Task<IActionResult> GetByID(int artifactID) {
+        var userId = User.GetUserId();
+        if (userId == null) return Unauthorized();
+        
         var artifact = await artifactRepository.GetByIdAsync(artifactID);
         if (artifact == null) return NotFound();
+        if(artifact.UserID != userId) return Unauthorized();
+        
         return Ok(artifact);
     }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateArtifactRequest request) {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
 
         var artifact = new Artifact
@@ -94,13 +91,14 @@ public class ArtifactsController : ControllerBase {
 
     [HttpPut("{artifactID}")]
     public async Task<IActionResult> Update(int artifactID, [FromBody] UpdateArtifactRequest request) {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
 
         if(artifactID != request.ArtifactID) return BadRequest(new { message = "Artifact ID mismatch" } );
         
         var existingArtifact = await artifactRepository.GetByIdAsync(artifactID);
         if(existingArtifact == null) return NotFound();
+        if(existingArtifact.UserID != userId) return Forbid();
         
         var artifact = new Artifact {
             ArtifactId = artifactID,
@@ -150,11 +148,13 @@ public class ArtifactsController : ControllerBase {
 
     [HttpDelete("{artifactID}")]
     public async Task<IActionResult> Delete(int artifactID) {
-        var userId = GetCurrentUserId();
+        var userId = User.GetUserId();
         if (userId == null) return Unauthorized();
         
         var existingArtifact = await artifactRepository.GetByIdAsync(artifactID);
-        if(existingArtifact == null) return NotFound();
+        if (existingArtifact == null) return NotFound();
+        if (existingArtifact.UserID != userId) return Forbid();
+        
         try {
             var success = await artifactRepository.DeleteAsync(artifactID);
             if (!success) return NotFound();
@@ -168,7 +168,7 @@ public class ArtifactsController : ControllerBase {
 
     [HttpGet("export")]
     public async Task<IActionResult> ExportCSV() {
-        var userId = GetCurrentUserId();
+        var userId =User.GetUserId();
         if (userId == null) return Unauthorized();
 
         var artifacts = await artifactRepository.GetAllByUserAsync(userId.Value);
