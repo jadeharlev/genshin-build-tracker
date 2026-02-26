@@ -5,10 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { RarityStat } from "../lib/api/statsInterfaces";
 
 export const Route = createFileRoute("/")({
-    component: Index,
-    beforeLoad: ({}) => {
-        //TODO
-    }
+    component: Index
 });
 
 function Index() {
@@ -96,12 +93,6 @@ function Index() {
                                 <span>{rarityStat?.numberOfCharacters}</span>
                             </div>
                         ))}
-                    </div>
-                </div>
-                <div className="homePageCard">
-                    <h2 className="homePageCardHeader">CSV Export</h2>
-                    <div className="homePageCardBody">
-                        TODO Add CSV export functionality
                     </div>
                 </div>
                 </>

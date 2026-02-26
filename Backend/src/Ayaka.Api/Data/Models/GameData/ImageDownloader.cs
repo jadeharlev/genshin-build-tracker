@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace Ayaka.Api.Data.Models.GameData; 
 
 public class ImageDownloader : IImageDownloader {
@@ -12,7 +10,7 @@ public class ImageDownloader : IImageDownloader {
         IWebHostEnvironment webHostEnvironment) {
         this.httpClient = httpClient;
         this.logger = logger;
-        var webRoot = webHostEnvironment.WebRootPath ?? Path.Combine(webHostEnvironment.ContentRootPath, "wwwroot"); 
+        var webRoot = webHostEnvironment.WebRootPath; 
         this.imageBasePath = Path.Combine(webRoot, "images");
     }
     

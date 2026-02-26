@@ -47,8 +47,8 @@ export function AddCharacterModal({
         if(!selectedCharacterKey) return;
         const levelNumber = parseInt(level) || 1;
         const talentLevel1Number = parseInt(talentLevel1) || 1;
-        const talentLevel2Number = parseInt(talentLevel1) || 1;
-        const talentLevel3Number = parseInt(talentLevel1) || 1;
+        const talentLevel2Number = parseInt(talentLevel2) || 1;
+        const talentLevel3Number = parseInt(talentLevel3) || 1;
 
         onSubmit({
             baseCharacterKey: selectedCharacterKey,
@@ -69,7 +69,7 @@ export function AddCharacterModal({
 
     return (
         <div className="modalOverlay" onClick={handleClose}>
-            {/* TODO explain stopPropagation */}
+            {/* stopPropagation prevents the modal from closing when clicking on modal content */}
             <div className="modalContent" onClick={(e) => e.stopPropagation()}>
                 <div className="modalHeader">
                     <h2>Add Character</h2>

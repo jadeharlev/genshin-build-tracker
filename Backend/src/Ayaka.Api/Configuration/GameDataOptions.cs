@@ -8,7 +8,7 @@ public class GameDataOptions {
     public bool RefreshDataOnStartup { get; set; } = false;
     
     // Number of days before data is considered stale
-    public int CacheExpirationInDays { get; set; } = 30;
+    public int CacheExpirationInDays { get; set; } = 60;
     
     // Delay between API requests to avoid rate limits
     public int DelayBetweenAPIRequestsInMs { get; set; } = 500;
