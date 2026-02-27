@@ -1,6 +1,7 @@
 services:
   api:
     container_name: ayaka-api
+    restart: always
     build:
       context: ./Backend/src/Ayaka.Api
       dockerfile: Dockerfile
@@ -27,6 +28,8 @@ services:
     image: caddy:2-alpine
     container_name: ayaka-caddy
     restart: always
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
     ports:
       - "80:80"
       - "443:443"
