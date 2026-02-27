@@ -48,6 +48,15 @@ jobs:
           name: frontend-dist
           path: dist/
 
+      - name: Clean Old Frontend Files
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            rm -rf ~/genshin-build-tracker/Frontend/dist/*
+
       - name: Copy Frontend To Server
         uses: appleboy/scp-action@v1
         with:
