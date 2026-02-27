@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - ConnectionStrings__DefaultConnection=Server=db;Port=3306;Database=ayaka_db;Uid=${MYSQL_USER};Pwd=${MYSQL_PASSWORD}
-      - ConnectionStrings__Redis=cache:6379
+      - ConnectionStrings__Redis=cache:6379,abortConnect=false
       - ASPNETCORE_URLS=http://+:8080
       - ASPNETCORE_ENVIRONMENT=Production
       - Google__ClientId=${GOOGLE_CLIENT_ID}
