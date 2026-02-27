@@ -1,0 +1,69 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Run Tests
+        run: dotnet test Backend/Ayaka.sln
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Build Frontend
+        working-directory: Frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Upload Frontend Dist
+        uses: actions/upload-artifact@v7
+        with:
+          name: frontend-dist
+          path: Frontend/dist/
+
+  deploy:
+    needs: build-and-test
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Frontend Dist
+        uses: actions/download-artifact@v8
+        with:
+          name: frontend-dist
+          path: dist/
+
+      - name: Copy Frontend To Server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "dist/*"
+          target: ~/genshin-build-tracker/Frontend/
+          overwrite: true
+
+      - name: Deploy Via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/genshin-build-tracker
+            git pull origin main
+            docker compose -f docker-compose.prod.yml up -d --build
+            docker restart ayaka-caddy
