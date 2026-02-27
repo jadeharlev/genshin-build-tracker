@@ -65,7 +65,7 @@ public class AuthController : ControllerBase {
             user.UserID = newUserId;
             isNewUser = true;
 
-            logger.LogInformation($"New user created: {user.Email}, User Id: {newUserId}");
+            logger.LogInformation("New user created: {email}, User Id: {uid}", user.Email, newUserId);
         }
         else {
             user = existingUser;
@@ -81,7 +81,7 @@ public class AuthController : ControllerBase {
                 await userRepository.UpdateAsync(user);
             }
 
-            logger.LogInformation($"User logged in: {user.Email}, User Id: {user.UserID}");
+            logger.LogInformation("User logged in: {userEmail}, User Id: {userID}", user.Email, user.UserID);
         }
 
         var accessToken = jwtService.GenerateAccessToken(user.UserID, user.Email, user.DisplayName);
