@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using Ayaka.Api.Controllers;
 using Ayaka.Api.Data.Models;
 using Ayaka.Api.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -11,6 +13,13 @@ public class UsersControllerTests {
     public UsersControllerTests() {
         mockRepository = new Mock<IUserRepository>();
         controller = new UsersController(mockRepository.Object);
+        var claims = new List<Claim> { new Claim("userId", "1") };
+        var identity = new ClaimsIdentity(claims, "TestAuth");
+        var claimsPrincipal = new ClaimsPrincipal(identity);
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext { User = claimsPrincipal }
+        };
     }
     
     [Fact]

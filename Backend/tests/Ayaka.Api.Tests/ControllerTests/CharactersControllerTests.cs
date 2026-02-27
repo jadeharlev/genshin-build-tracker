@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using Ayaka.Api.Controllers;
 using Ayaka.Api.Data.Models;
 using Ayaka.Api.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -13,6 +15,13 @@ public class CharactersControllerTests {
     public CharactersControllerTests() {
         mockRepository = new Mock<ICharacterRepository>();
         controller = new CharactersController(mockRepository.Object);
+        var claims = new List<Claim> { new Claim("userId", "0") };
+        var identity = new ClaimsIdentity(claims, "TestAuth");
+        var claimsPrincipal = new ClaimsPrincipal(identity);
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext { User = claimsPrincipal }
+        };
     }
 
     [Fact]
@@ -109,8 +118,10 @@ public class CharactersControllerTests {
             Rarity = "5",
             TalentLevel1 = 7,
             TalentLevel2 = 7,
-            TalentLevel3 = 7
+            TalentLevel3 = 7,
+            UserID = 0
         };
+        mockRepository.Setup(repository => repository.GetByIDAsync(1)).ReturnsAsync(character);
         mockRepository.Setup(repository => repository.UpdateAsync(character)).ReturnsAsync(true);
         var result = await controller.Update(1, character); 
         Assert.IsType<NoContentResult>(result);
@@ -138,6 +149,8 @@ public class CharactersControllerTests {
 
     [Fact]
     public async Task DeleteReturnsNoContentWhenCharacterExists() {
+        var character = new Character { CharacterID = 1, UserID = 0, Name = "Yanfei" };
+        mockRepository.Setup(repository => repository.GetByIDAsync(1)).ReturnsAsync(character);
         mockRepository.Setup(repository => repository.DeleteAsync(1)).ReturnsAsync(true);
         var result = await controller.Delete(1);
         Assert.IsType<NoContentResult>(result);
