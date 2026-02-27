@@ -57,7 +57,7 @@ public class RefreshTokenService : IRefreshTokenService {
         var database = redis.GetDatabase();
         
         var json = await database.StringGetAsync(RefreshTokenPrefix + refreshToken);
-        if (json.IsNullOrEmpty) {
+        if (!json.IsNullOrEmpty) {
             try {
                 var tokenData = JsonSerializer.Deserialize<RefreshTokenData>(json!);
                 if (tokenData != null) {
