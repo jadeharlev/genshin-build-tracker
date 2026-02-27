@@ -65,7 +65,7 @@ public class BuildsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error creating build");
-            return StatusCode(500, "Failed to create build: " + e.Message);
+            return StatusCode(500, "Failed to create build.");
         }
     }
 
@@ -99,7 +99,7 @@ public class BuildsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error updating build");
-            return StatusCode(500, "Failed to update build: " + e.Message);
+            return StatusCode(500, "Failed to update build.");
         }
     }
 
@@ -115,7 +115,7 @@ public class BuildsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error deleting build " + buildId);
-            return StatusCode(500, "Failed to delete build: " + e.Message);
+            return StatusCode(500, "Failed to delete build.");
         }
     }
 }

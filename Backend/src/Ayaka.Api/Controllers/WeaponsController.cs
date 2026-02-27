@@ -52,7 +52,7 @@ public class WeaponsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error creating weapon");
-            return StatusCode(500, e.Message);
+            return StatusCode(500, "Error creating weapon");
         }
     }
 
@@ -76,7 +76,7 @@ public class WeaponsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error updating weapon");
-            return StatusCode(500, "Failed to update weapon: " + e.Message);
+            return StatusCode(500, "Failed to update weapon.");
         }
     }
 
@@ -96,7 +96,7 @@ public class WeaponsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error deleting weapon " + weaponID);
-            return StatusCode(500, "Failed to delete weapon: " + e.Message);
+            return StatusCode(500, "Failed to delete weapon.");
         }
     }
 

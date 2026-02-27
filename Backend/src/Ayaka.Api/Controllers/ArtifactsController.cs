@@ -85,7 +85,7 @@ public class ArtifactsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error creating artifact");
-            return StatusCode(500, "Failed to create artifact: " + e.Message);
+            return StatusCode(500, "Failed to create artifact.");
         }
     }
 
@@ -142,7 +142,7 @@ public class ArtifactsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error updating artifact");
-            return StatusCode(500, "Failed to update artifact: " + e.Message);
+            return StatusCode(500, "Failed to update artifact.");
         }
     }
 
@@ -162,7 +162,7 @@ public class ArtifactsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error deleting artifact " + artifactID);
-            return StatusCode(500, "Failed to delete artifact: " + e.Message);
+            return StatusCode(500, "Failed to delete artifact.");
         }
     }
 

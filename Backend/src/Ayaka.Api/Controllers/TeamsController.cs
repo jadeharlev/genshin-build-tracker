@@ -58,7 +58,7 @@ public class TeamsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error creating team");
-            return StatusCode(500, e.Message);
+            return StatusCode(500, "Error creating team");
         }
     }
 
@@ -85,7 +85,7 @@ public class TeamsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error updating team");
-            return StatusCode(500, e.Message);
+            return StatusCode(500, "Error updating team");
         }
     }
 
@@ -105,7 +105,7 @@ public class TeamsController : ControllerBase {
         }
         catch (Exception e) {
             logger.LogError(e, "Error deleting team");
-            return StatusCode(500, e.Message);
+            return StatusCode(500, "Error deleting team");
         }
     }
 }
