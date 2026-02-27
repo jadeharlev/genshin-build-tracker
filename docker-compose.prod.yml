@@ -4,8 +4,6 @@ services:
     build:
       context: ./Backend/src/Ayaka.Api
       dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
     environment:
       - ConnectionStrings__DefaultConnection=Server=db;Port=3306;Database=ayaka_db;Uid=${MYSQL_USER};Pwd=${MYSQL_PASSWORD}
       - ConnectionStrings__Redis=cache:6379
@@ -25,6 +23,19 @@ services:
     depends_on:
       - db
       - cache
+  caddy:
+    image: caddy:2-alpine
+    container_name: ayaka-caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - ./Frontend/dist:/srv
+    depends_on:
+      - api
   db:
     image: mysql:9.4.0
     container_name: ayaka-mysql
@@ -49,3 +60,4 @@ services:
 volumes:
   mysql_data:
   redis_data:
+  caddy_data:
